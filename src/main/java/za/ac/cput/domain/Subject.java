@@ -1,5 +1,11 @@
 package za.ac.cput.domain;
-
+/*
+subject.java
+Subject domain class
+Author:Wendy Bayise
+(222828978)
+Date: 15 March 2026
+ */
 
 public class Subject {
     private String subjectCode;
@@ -10,11 +16,11 @@ public class Subject {
     private Subject() {
     }
 
-    public Subject(Builder bulider){
-        this.subjectCode = subjectCode;
-        this.subjectName = subjectName;
-        this.subjectDescription = subjectDescription;
-        this.gradeLevel = gradeLevel;
+    private Subject(Builder bulider){
+        this.subjectCode = bulider.subjectCode;
+        this.subjectName = bulider.subjectName;
+        this.subjectDescription = bulider.subjectDescription;
+        this.gradeLevel = bulider.gradeLevel;
     }
 
     public String getSubjectCode() {
@@ -33,18 +39,15 @@ public class Subject {
         return gradeLevel;
     }
 
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
-    }
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "subjectCode='" + subjectCode + '\'' +
-                ", subjectName='" + subjectName + '\'' +
-                ", subjectDescription='" + subjectDescription + '\'' +
-                ", gradeLevel='" + gradeLevel + '\'' +
-                '}';
+        return "==Subject Details==" +
+                "\nSubject Code: " + subjectCode +
+                "\nSubject Name: " + subjectName +
+                "\nSubject Description: " + subjectDescription +
+                "\nGrade Level: " + gradeLevel;
+
     }
 
     public static class Builder {
@@ -53,22 +56,26 @@ public class Subject {
         private String subjectDescription;
         private String gradeLevel;
 
-        public void setSubjectCode(String subjectCode) {
+        public Builder setSubjectCode(String subjectCode) {
             this.subjectCode = subjectCode;
+            return this;
         }
 
-        public void setSubjectName(String subjectName) {
+        public Builder setSubjectName(String subjectName) {
             this.subjectName = subjectName;
+            return this;
         }
 
-        public void setSubjectDescription(String subjectDescription) {
+        public Builder setSubjectDescription(String subjectDescription) {
             this.subjectDescription = subjectDescription;
+            return this;
         }
 
-        public void setGradeLevel(String gradeLevel) {
+        public Builder setGradeLevel(String gradeLevel) {
             this.gradeLevel = gradeLevel;
+            return this;
         }
-        public Subject.Builder copy(Subject subject){
+        public Builder copy(Subject subject){
             this.subjectCode = subject.subjectCode;
             this.subjectName = subject.subjectName;
             this.subjectDescription = subject.subjectDescription;
