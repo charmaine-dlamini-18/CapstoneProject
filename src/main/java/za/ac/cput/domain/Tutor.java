@@ -73,14 +73,17 @@ public class Tutor {
             this.tutorId = tutorId;
             return this;
         }
+
         public Builder setFirstName(String firstName) {
             this.firstName = firstName;
             return this;
         }
+
         public Builder setLastName(String lastName) {
             this.lastName = lastName;
             return this;
         }
+
         public Builder setEmail(String email) {
             this.email = email;
             return this;
@@ -90,15 +93,18 @@ public class Tutor {
             this.phoneNumber = phoneNumber;
             return this;
         }
+
         public Builder setPassword(String password) {
             this.password = password;
             return this;
         }
+
         public Builder setHourlyRate(double hourlyRate) {
             this.hourlyRate = hourlyRate;
             return this;
         }
-        public Builder copy( Tutor tutor){
+
+        public Builder copy(Tutor tutor) {
             this.tutorId = tutor.tutorId;
             this.firstName = tutor.firstName;
             this.lastName = tutor.lastName;
