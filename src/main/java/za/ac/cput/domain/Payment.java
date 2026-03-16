@@ -1,11 +1,14 @@
 package za.ac.cput.domain;
 
 public class Payment {
-    private final String paymentRef;
-    private final double amount;
-    private final String paymentDate;
-    private final String paymentMethod;
-    private final String status;
+    private String paymentRef;
+    private double amount;
+    private String paymentDate;
+    private String paymentMethod;
+    private String status;
+
+    private Payment() {
+    }
 
     private Payment(Builder builder) {
         this.paymentRef = builder.paymentRef;
@@ -35,34 +38,54 @@ public class Payment {
         return status;
     }
 
+    @Override
+    public String toString() {
+        return "==Payment Details==" +
+                "\nPayment Reference: " + paymentRef +
+                "\nAmount: " + amount +
+                "\nPayment Date: " + paymentDate +
+                "\nPayment Method: " + paymentMethod +
+                "\nStatus: " + status;
+    }
+
     public static class Builder {
-        private final String paymentRef;
+        private String paymentRef;
         private double amount;
         private String paymentDate;
         private String paymentMethod;
         private String status;
 
-        public Builder(String paymentRef) {  // required field
+        public Builder setPaymentRef(String paymentRef) {
             this.paymentRef = paymentRef;
+            return this;
         }
 
-        public Builder amount(double amount) {
+        public Builder setAmount(double amount) {
             this.amount = amount;
             return this;
         }
 
-        public Builder paymentDate(String paymentDate) {
+        public Builder setPaymentDate(String paymentDate) {
             this.paymentDate = paymentDate;
             return this;
         }
 
-        public Builder paymentMethod(String paymentMethod) {
+        public Builder setPaymentMethod(String paymentMethod) {
             this.paymentMethod = paymentMethod;
             return this;
         }
 
-        public Builder status(String status) {
+        public Builder setStatus(String status) {
             this.status = status;
+            return this;
+        }
+
+        public Builder copy(Payment payment) {
+            this.paymentRef = payment.paymentRef;
+            this.amount = payment.amount;
+            this.paymentDate = payment.paymentDate;
+            this.paymentMethod = payment.paymentMethod;
+            this.status = payment.status;
             return this;
         }
 
