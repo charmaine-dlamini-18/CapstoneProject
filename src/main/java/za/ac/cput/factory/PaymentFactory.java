@@ -30,7 +30,7 @@ public class PaymentFactory {
 
         return new Payment.Builder()
                 .setPaymentRef(paymentRef)
-                .setAmount(String.valueOf(amount))
+                .setAmount(amount) 
                 .setPaymentDate(paymentDate)
                 .setPaymentMethod(paymentMethod)
                 .setStatus(status)
