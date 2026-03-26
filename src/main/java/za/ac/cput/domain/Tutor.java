@@ -59,6 +59,17 @@ public class Tutor {
         return hourlyRate;
     }
 
+    @Override
+    public String toString() {
+        return "==Tutor==" +
+                "\nTutor Id:" + tutorId +
+                "\nFirst Name: " + firstName +
+                "\nLast Name: " + lastName +
+                "\nEmail: " + email +
+                "\nPhone Number: " + phoneNumber +
+                "\nPassword: " + password +
+                "\nHourly Rate: " + hourlyRate;
+    }
 
     public static class Builder {
         private String tutorId;

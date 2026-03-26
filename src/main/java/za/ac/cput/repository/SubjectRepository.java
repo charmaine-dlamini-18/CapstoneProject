@@ -39,7 +39,7 @@ public class SubjectRepository implements ISubjectRepository {
     public Subject read(String subjectCode) {
         for (Subject subject : subjectList) {
             if (subject.getSubjectCode().equals(subjectCode)) {
-
+            return subject;
             }
         }
         return null;
@@ -57,11 +57,11 @@ public class SubjectRepository implements ISubjectRepository {
         if (!success) {
             return null;
         }
-        if (subjectList.add(subject)) ;
-        {
+        if (subjectList.add(subject)){
+            return subject;
 
         }
-        return subject;
+        return null;
     }
 
     @Override

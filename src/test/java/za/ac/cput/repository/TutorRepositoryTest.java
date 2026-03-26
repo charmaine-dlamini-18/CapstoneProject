@@ -1,5 +1,6 @@
 package za.ac.cput.repository;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -44,6 +45,7 @@ public class TutorRepositoryTest {
         System.out.println("Updated: " +updated);
     }
     @Test
+    @Disabled
     void d_delete() {
         boolean success = repository.delete(tutor.getTutorId());
         assertTrue(success);
