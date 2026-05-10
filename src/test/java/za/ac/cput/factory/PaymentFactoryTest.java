@@ -22,7 +22,9 @@ class PaymentFactoryTest {
                 1500.00,
                 "2026-03-25",
                 "Card",
-                "Completed"
+                "Completed",
+                "TRX001",
+                "BOOK001"
         );
 
         assertNotNull(payment);
