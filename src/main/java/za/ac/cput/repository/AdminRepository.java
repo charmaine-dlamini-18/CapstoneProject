@@ -5,7 +5,7 @@ import java.util.List;
 /*
 AdminRepository.java
 Admin repository
-Author: Thimna Booi - 230232108
+Author: Thimna  Barbara Booi - 230232108
 Date: 20/03/2026
  */
 

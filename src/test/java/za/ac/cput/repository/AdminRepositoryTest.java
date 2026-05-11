@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /*
 AdminRepositoryTest.java
 Admin repository testing
-Author: Thimna Booi - 230232108
+Author: Thimna Barbara Booi - 230232108
 Date: 25/03/2026
  */
 
