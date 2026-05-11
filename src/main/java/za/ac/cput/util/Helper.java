@@ -25,4 +25,8 @@ public class Helper {
         }
         return false;
     }
+    public static boolean isValidInt(int value) {
+        return value > 0;
+
+    }
 }

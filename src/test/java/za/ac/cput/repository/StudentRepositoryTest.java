@@ -2,8 +2,10 @@ package za.ac.cput.repository;
 import org.junit.jupiter.api.*;
 import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Student;
+import za.ac.cput.factory.BookingFactory;
 import za.ac.cput.factory.StudentFactory;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ Date: 23/03/2026
 class StudentRepositoryTest {
     List<Booking> bookings = new ArrayList<>();
     private static IStudentRepository repository = StudentRepository.getRepository();        //Enforcing singleton
+
     Student student = StudentFactory.createStudent("220094489","John",
             "Doe","220094489@mycput.ac.za","073 985 1110",
             "JohnDoe2026","Third year", bookings);

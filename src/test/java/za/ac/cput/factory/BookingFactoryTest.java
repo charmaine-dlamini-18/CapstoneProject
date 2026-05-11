@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BookingFactoryTest {
-    private static Payment payment;
+
     private static Booking booking;
 
     @BeforeEach

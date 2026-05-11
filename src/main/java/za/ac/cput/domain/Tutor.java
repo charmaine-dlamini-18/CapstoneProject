@@ -1,8 +1,9 @@
 package za.ac.cput.domain;
+import java.util.List;
 
 /*
-subject.java
-Subject domain class
+Tutor.java
+Tutor domain class
 Author: Imaan Achmat
 (230458971)
 Date : 15 March 2026
@@ -16,10 +17,10 @@ public class Tutor {
     private String phoneNumber;
     private String password;
     private double hourlyRate;
+    private List<Booking> bookings;
 
     private Tutor() {
     }
-
 
     private Tutor(Builder builder) {
         this.tutorId = builder.tutorId;
@@ -29,6 +30,7 @@ public class Tutor {
         this.phoneNumber = builder.phoneNumber;
         this.password = builder.password;
         this.hourlyRate = builder.hourlyRate;
+        this.bookings = builder.bookings;
     }
 
     public String getTutorId() {
@@ -59,6 +61,10 @@ public class Tutor {
         return hourlyRate;
     }
 
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
     @Override
     public String toString() {
         return "==Tutor==" +
@@ -68,7 +74,8 @@ public class Tutor {
                 "\nEmail: " + email +
                 "\nPhone Number: " + phoneNumber +
                 "\nPassword: " + password +
-                "\nHourly Rate: " + hourlyRate;
+                "\nHourly Rate: " + hourlyRate +
+                "\nBookings: " + bookings;
     }
 
     public static class Builder {
@@ -79,6 +86,7 @@ public class Tutor {
         private String phoneNumber;
         private String password;
         private double hourlyRate;
+        private List<Booking> bookings;
 
         public Builder setTutorId(String tutorId) {
             this.tutorId = tutorId;
@@ -115,6 +123,11 @@ public class Tutor {
             return this;
         }
 
+        public Builder setBookings(List<Booking> bookings) {
+            this.bookings = bookings;
+            return this;
+        }
+
         public Builder copy(Tutor tutor) {
             this.tutorId = tutor.tutorId;
             this.firstName = tutor.firstName;
@@ -123,14 +136,12 @@ public class Tutor {
             this.phoneNumber = tutor.phoneNumber;
             this.password = tutor.password;
             this.hourlyRate = tutor.hourlyRate;
+            this.bookings = tutor.bookings;
             return this;
-
         }
 
         public Tutor build() {
             return new Tutor(this);
-
         }
-
     }
 }

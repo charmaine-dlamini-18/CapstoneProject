@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BookingRepositoryTest {
     private static IBookingRepository repository = BookingRepository.getRepository();
 
-    private Booking booking = BookingFactory.createBooking("B12345", "222056401",
+   Booking booking = BookingFactory.createBooking("B12345", "222056401",
             "ADP362S", "Online", "2 hours", "T987654",
             LocalDateTime.of(2026, 6, 14, 5, 30));
 
