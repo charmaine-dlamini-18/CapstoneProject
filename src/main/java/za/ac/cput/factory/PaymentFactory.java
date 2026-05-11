@@ -1,7 +1,10 @@
 package za.ac.cput.factory;
 
+import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Payment;
 import za.ac.cput.util.Helper;
+
+import java.time.LocalDateTime;
 
 /*
 PaymentFactory.java
@@ -13,8 +16,12 @@ Date: 17 March 2026
 
 public class PaymentFactory {
 
-    public static Payment createPayment(String paymentRef, double amount, String paymentDate, String paymentMethod,
-                                        String status) {
+    public static Payment createPayment(String paymentRef,
+                                        double amount,
+                                        LocalDateTime paymentDate,
+                                        String paymentMethod,
+                                        String status,
+                                        Booking booking) {
 
         if (Helper.isNullOrEmpty(paymentRef)) {
             throw new IllegalArgumentException("Payment reference cannot be empty");
@@ -30,9 +37,15 @@ public class PaymentFactory {
 
         return new Payment.Builder()
                 .setPaymentRef(paymentRef)
-                .setAmount(amount) 
+                .setAmount(amount)
                 .setPaymentDate(paymentDate)
                 .setPaymentMethod(paymentMethod)
+                .setStatus(status)
+                .setBooking(booking)
+
+                .build();
+    }
+}                .setPaymentMethod(paymentMethod)
                 .setStatus(status)
                 .build();
     }

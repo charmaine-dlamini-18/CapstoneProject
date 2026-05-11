@@ -1,7 +1,10 @@
 package za.ac.cput.factory;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
+import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Payment;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,12 +20,18 @@ class PaymentFactoryTest {
 
     @Test
     void createPayment() {
+
+        Booking booking = new Booking.Builder()
+                .setBookingId("BOOK001")
+                .build();
+
         Payment payment = PaymentFactory.createPayment(
                 "PAY001",
                 1500.00,
-                "2026-03-25",
+                LocalDateTime.now(),
                 "Card",
-                "Completed"
+                "Completed",
+                booking
         );
 
         assertNotNull(payment);

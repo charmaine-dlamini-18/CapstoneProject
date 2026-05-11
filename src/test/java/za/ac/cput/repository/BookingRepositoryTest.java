@@ -14,17 +14,16 @@ import za.ac.cput.domain.Payment;
 import za.ac.cput.factory.BookingFactory;
 import za.ac.cput.factory.PaymentFactory;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class BookingRepositoryTest {
     private static IBookingRepository repository = BookingRepository.getRepository();
 
-    private Payment payment = PaymentFactory.createPayment("reference123", 1000.00,
-            "23/03/2026", "Card", "pending");
-
-    private Booking booking = BookingFactory.createBooking("12345", "Session1",
-            "12:00", "Online", "2 hours", "222056401",
-            "ADP362S", "T987654", payment);
+   Booking booking = BookingFactory.createBooking("B12345", "222056401",
+            "ADP362S", "Online", "2 hours", "T987654",
+            LocalDateTime.of(2026, 6, 14, 5, 30));
 
     @Test
     void a_create() {
@@ -42,7 +41,8 @@ class BookingRepositoryTest {
 
     @Test
     void c_update() {
-        Booking newBooking = new Booking.Builder().copy(booking).setSessionTime("13:00")
+        Booking newBooking = new Booking.Builder().copy(booking)
+                .setDuration("4 hours")
                 .build();
         Booking updated = repository.update(newBooking);
         assertNotNull(updated);

@@ -1,8 +1,11 @@
 package za.ac.cput.repository;
 
 import org.junit.jupiter.api.*;
+import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Payment;
 import za.ac.cput.factory.PaymentFactory;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,12 +22,17 @@ class PaymentRepositoryTest {
 
     private static IPaymentRepository repository = PaymentRepository.getRepository();
 
+    Booking booking = new Booking.Builder()
+            .setBookingId("BOOK001")
+            .build();
+
     Payment payment = PaymentFactory.createPayment(
             "PAY001",
             1500.00,
-            "2026-03-25",
+            LocalDateTime.now(),
             "Card",
-            "Completed"
+            "Completed",
+            booking
     );
 
     @Test
@@ -45,8 +53,8 @@ class PaymentRepositoryTest {
     void c_update() {
         Payment newRecord = new Payment.Builder()
                 .copy(payment)
-                .setAmount(2000.00)           
-                .setStatus("Pending")        
+                .setAmount(2000.00)
+                .setStatus("Pending")
                 .build();
 
         Payment updated = repository.update(newRecord);
@@ -55,7 +63,40 @@ class PaymentRepositoryTest {
     }
 
     @Test
-    @Disabled 
+    @Disabled
+    void d_delete() {
+        assertTrue(repository.delete(payment.getPaymentRef()));
+        System.out.println("Payment has been successfully deleted");
+    }
+
+    @Test
+    void e_getAll() {
+        System.out.println(repository.getAll());
+    }
+}    }
+
+    @Test
+    void b_read() {
+        Payment read = repository.read(payment.getPaymentRef());
+        assertNotNull(read);
+        System.out.println(read.toString());
+    }
+
+    @Test
+    void c_update() {
+        Payment newRecord = new Payment.Builder()
+                .copy(payment)
+                .setAmount(2000.00)
+                .setStatus("Pending")
+                .build();
+
+        Payment updated = repository.update(newRecord);
+        assertNotNull(updated);
+        System.out.println(updated);
+    }
+
+    @Test
+    @Disabled
     void d_delete() {
         assertTrue(repository.delete(payment.getPaymentRef()));
         System.out.println("Payment has been successfully deleted");

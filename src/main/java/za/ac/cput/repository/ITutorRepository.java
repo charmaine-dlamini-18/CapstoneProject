@@ -3,7 +3,7 @@ package za.ac.cput.repository;
 /*
 ITutorRepository.java
 ITutor Repository
-Autor: Imaan Achmat
+Author: Imaan Achmat
 20 March 2026
  */
 

@@ -71,6 +71,6 @@ public class TutorRepository implements ITutorRepository {
 
     @Override
     public List<Tutor> getAll() {
-        return tutorList;
+        return new ArrayList<>(tutorList);
     }
 }

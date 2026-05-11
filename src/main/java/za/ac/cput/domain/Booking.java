@@ -7,16 +7,17 @@ Date: 13/03/2026
 
 package za.ac.cput.domain;
 
+import java.time.LocalDateTime;
+
 public class Booking {
     private String bookingId;
-    private String sessionId;
-    private String sessionTime;
-    private String sessionType;
-    private String duration;
     private String studentNumber;
     private String subjectCode;
+    private String sessionType;
+    private String duration;
     private String tutorId;
-    private Payment payment;
+    private LocalDateTime date;
+
 
     private Booking() {
 
@@ -24,36 +25,18 @@ public class Booking {
 
     private Booking(Builder builder) {
         this.bookingId = builder.bookingId;
-        this.sessionId = builder.sessionId;
-        this.sessionTime = builder.sessionTime;
-        this.sessionType = builder.sessionType;
-        this.duration = builder.duration;
         this.studentNumber = builder.studentNumber;
         this.subjectCode = builder.subjectCode;
+        this.sessionType = builder.sessionType;
+        this.duration = builder.duration;
         this.tutorId = builder.tutorId;
-        this.payment = builder.payment;
+        this.date = builder.date;
 
 
     }
 
     public String getBookingId() {
         return bookingId;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public String getSessionTime() {
-        return sessionTime;
-    }
-
-    public String getSessionType() {
-        return sessionType;
-    }
-
-    public String getDuration() {
-        return duration;
     }
 
     public String getStudentNumber() {
@@ -63,76 +46,57 @@ public class Booking {
     public String getSubjectCode() {
         return subjectCode;
     }
+    public String getSessionType() {
+        return sessionType;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
 
     public String getTutorId() {
         return tutorId;
     }
-
-    public Payment getPayment(){
-        return payment;
+    public LocalDateTime getDate() {
+        return date;
     }
+
 
     @Override
     public String toString() {
         return "Booking" +
                 "\nBooking Id: " + bookingId +
-                "\nSession Id: " + sessionId +
-                "\nSession Time: " + sessionTime +
-                "\nSession Type: " + sessionType +
-                "\nDuration: " + duration +
                 "\nStudent Number: " + studentNumber +
                 "\nSubject Code: " + subjectCode +
+                "\nSession Type: " + sessionType +
+                "\nDuration: " + duration +
                 "\nTutor Id: " + tutorId +
-                "\nPayment: " + payment;
+                "\nDate: " + date;
     }
 
     public static class Builder {
         private String bookingId;
-        private String sessionId;
-        private String sessionTime;
-        private String sessionType;
-        private String duration;
         private String studentNumber;
         private String subjectCode;
+        private String sessionType;
+        private String duration;
         private String tutorId;
-        private Payment payment;
+        private LocalDateTime date;
 
         public Builder copy(Booking booking) {
             this.bookingId = booking.bookingId;
-            this.sessionId = booking.sessionId;
-            this.sessionTime = booking.sessionTime;
-            this.sessionType = booking.sessionType;
-            this.duration = booking.duration;
             this.studentNumber = booking.studentNumber;
             this.subjectCode = booking.subjectCode;
+            this.sessionType = booking.sessionType;
+            this.duration = booking.duration;
             this.tutorId = booking.tutorId;
-            this.payment = booking.payment;
+            this.date = booking.date;
             return this;
         }
 
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
-            return this;
-        }
-
-        public Builder setSessionId(String sessionId) {
-            this.sessionId = sessionId;
-            return this;
-        }
-
-        public Builder setSessionTime(String sessionTime) {
-            this.sessionTime = sessionTime;
-            return this;
-        }
-
-        public Builder setSessionType(String sessionType) {
-            this.sessionType = sessionType;
-            return this;
-        }
-
-        public Builder setDuration(String duration) {
-            this.duration = duration;
             return this;
         }
 
@@ -146,13 +110,23 @@ public class Booking {
             return this;
         }
 
+        public Builder setSessionType(String sessionType) {
+            this.sessionType = sessionType;
+            return this;
+        }
+
+        public Builder setDuration(String duration) {
+            this.duration = duration;
+            return this;
+        }
+
         public Builder setTutorId(String tutorId) {
             this.tutorId = tutorId;
             return this;
         }
 
-        public Builder setPayment(Payment payment){
-            this.payment = payment;
+        public Builder setDate(LocalDateTime date) {
+            this.date = date;
             return this;
         }
 

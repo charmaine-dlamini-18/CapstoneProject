@@ -6,6 +6,8 @@ Author: Sabelo Ceza - 220094489
 Date: 13/03/2026
  */
 
+import java.util.List;
+
 public class Student {
     private String studentNumber;
     private String firstName;
@@ -14,6 +16,7 @@ public class Student {
     private String phoneNumber;
     private String password;
     private String levelOfStudy;
+    private List<Booking> bookings;
 
     private Student(){
     }
@@ -25,6 +28,7 @@ public class Student {
         this.phoneNumber = builder.phoneNumber;
         this.password = builder.password;
         this.levelOfStudy = builder.levelOfStudy;
+        this.bookings = builder.bookings;
 
     }
 
@@ -50,6 +54,9 @@ public class Student {
     public String getLevelOfStudy() {
         return levelOfStudy;
     }
+    public List<Booking> getBookings() {
+        return bookings;
+    }
 
     @Override
     public String toString() {
@@ -60,7 +67,9 @@ public class Student {
                 "\nEmail: " + email +
                 "\nPhone Number: " + phoneNumber +
                 "\nLevel Of Study: " + levelOfStudy +
-                "\nPassword: " + password;
+                "\nPassword: " + password +
+                "\nBookings: " + bookings;
+
     }
     public static class Builder{
         private String studentNumber;
@@ -70,6 +79,7 @@ public class Student {
         private String phoneNumber;
         private String password;
         private String levelOfStudy;
+        private List<Booking> bookings;
 
         public Builder setStudentNumber(String studentNumber) {
             this.studentNumber = studentNumber;
@@ -103,6 +113,11 @@ public class Student {
             this.levelOfStudy = levelOfStudy;
             return this;
         }
+        public Builder setBookings(List<Booking> bookings) {
+            this.bookings = bookings;
+            return this;
+        }
+
         public Builder copy(Student student){
             this.studentNumber = student.studentNumber;
             this.firstName = student.firstName;
@@ -111,6 +126,7 @@ public class Student {
             this.phoneNumber = student.phoneNumber;
             this.password = student.password;
             this.levelOfStudy = student.levelOfStudy;
+            this.bookings = student.bookings;
             return this;
         }
         public Student build(){

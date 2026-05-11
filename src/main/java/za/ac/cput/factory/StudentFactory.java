@@ -1,6 +1,9 @@
 package za.ac.cput.factory;
+import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Student;
 import za.ac.cput.util.Helper;
+
+import java.util.List;
 /*
 StudentFactory.java
 Student with factory class
@@ -12,7 +15,7 @@ public class StudentFactory {
 
     public static Student createStudent(String studentNumber, String firstName, String lastName,
                                         String email, String phoneNumber,
-                                        String password, String levelOfStudy) {
+                                        String password, String levelOfStudy, List<Booking> bookings) {
 
         if(Helper.isNullOrEmpty(studentNumber)
          ||Helper.isNullOrEmpty(firstName)
@@ -27,6 +30,9 @@ public class StudentFactory {
         if (!Helper.isValidEmail(email)) {
             return null;
         }
+        if(Helper.isNull(bookings)) {
+            return null;
+        }
         return new Student.Builder()
                 .setStudentNumber(studentNumber)
                 .setFirstName(firstName)
@@ -35,6 +41,7 @@ public class StudentFactory {
                 .setPhoneNumber(phoneNumber)
                 .setPassword(password)
                 .setLevelOfStudy(levelOfStudy)
+                .setBookings(bookings)
                 .build();
 
     }

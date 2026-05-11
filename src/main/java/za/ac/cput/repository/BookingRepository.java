@@ -13,10 +13,10 @@ import java.util.List;
 public class BookingRepository implements IBookingRepository{
 
     private static IBookingRepository repository = null;
-    private List<Booking> bookingList;
+    private List<Booking> bookings;
 
     private BookingRepository(){
-        bookingList = new ArrayList<Booking>();
+        bookings = new ArrayList<>();
     }
 
 
@@ -30,7 +30,7 @@ public class BookingRepository implements IBookingRepository{
 
     @Override
     public Booking create(Booking booking) {
-        boolean success = bookingList.add(booking);
+        boolean success = bookings.add(booking);
         if (success){
             return booking;
         }
@@ -39,7 +39,7 @@ public class BookingRepository implements IBookingRepository{
 
     @Override
     public Booking read(String bookingId) {
-        for (Booking booking: bookingList){
+        for (Booking booking: bookings){
             if (booking.getBookingId().equals(bookingId)) {
                 return booking;
             }
@@ -54,9 +54,9 @@ public class BookingRepository implements IBookingRepository{
         if (oldBooking == null) {
             return null;
         }
-        boolean success = bookingList.remove(oldBooking);
+        boolean success = bookings.remove(oldBooking);
         if (success){
-            if (bookingList.add(booking)) {
+            if (bookings.add(booking)) {
                 return booking;
             }
         }
@@ -69,12 +69,12 @@ public class BookingRepository implements IBookingRepository{
         if (bookingToDelete == null) {
             return false;
         }
-        return (bookingList.remove(bookingToDelete));
+        return (bookings.remove(bookingToDelete));
     }
 
     @Override
     public List<Booking> getAll() {
-        return bookingList;
+        return bookings;
     }
 
 }
