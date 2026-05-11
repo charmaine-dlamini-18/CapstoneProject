@@ -5,9 +5,11 @@ Admin POJO with builder
 Author: Thimna Booi - 230232108
 Date: 13/03/2026
  */
+import java.util.List;
+
 public class Admin {
 
-    private String id;
+    private String adminId;
     private  String role;
 
     private Admin() {
@@ -15,12 +17,12 @@ public class Admin {
     }
 
     private Admin(Builder builder) {
-        this.id = builder.id;
+        this.adminId = builder.adminId;
         this.role = builder.role;
     }
 
-    public String getId() {
-        return id;
+    public String getAdminId() {
+        return adminId;
     }
 
     public String getRole() {
@@ -31,18 +33,18 @@ public class Admin {
     @Override
     public String toString() {
         return "==Admin Details=={" +
-                "\nId='" + id +
+                "\nAdmin Id='" + adminId +
                 "\nRole='" + role +
                 '}';
     }
 
     public static class Builder {
 
-        private String id;
+        private String adminId;
         private String role;
 
-        public Builder setId(String id) {
-            this.id = id;
+        public Builder setAdminId(String id) {
+            this.adminId = adminId;
             return this;
         }
 
@@ -52,7 +54,7 @@ public class Admin {
         }
 
         public Builder copy(Admin admin) {
-            this.id = admin.id;
+            this.adminId = admin.adminId;
             this.role = admin.role;
             return this;
         }
@@ -61,6 +63,28 @@ public class Admin {
             return new Admin(this);
         }
     }
+    public boolean login() {
+        return true;
+    }
 
+    public void logout() {
+        System.out.println("Admin logged out");
+    }
+
+    public List<Student> viewStudents() {
+        return null;
+    }
+
+    public List<Tutor> viewTutors() {
+        return null;
+    }
+
+    public List<Subject> viewSubjects() {
+        return null;
+    }
+
+    public List<Booking> viewBookings() {
+        return null;
+    }
 
 }
