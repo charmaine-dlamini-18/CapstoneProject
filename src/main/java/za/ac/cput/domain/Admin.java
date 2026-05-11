@@ -62,29 +62,7 @@ public class Admin {
         public Admin build() {
             return new Admin(this);
         }
-    }
-    public boolean login() {
-        return true;
-    }
-
-    public void logout() {
-        System.out.println("Admin logged out");
-    }
-
-    public List<Student> viewStudents() {
-        return null;
-    }
-
-    public List<Tutor> viewTutors() {
-        return null;
-    }
-
-    public List<Subject> viewSubjects() {
-        return null;
-    }
-
-    public List<Booking> viewBookings() {
-        return null;
+  
     }
 
 }
