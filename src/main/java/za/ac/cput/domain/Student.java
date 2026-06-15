@@ -6,9 +6,13 @@ Author: Sabelo Ceza - 220094489
 Date: 13/03/2026
  */
 
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+import java.util.List;
+@Entity
 public class Student {
+    @Id
     private String studentNumber;
     private String firstName;
     private String lastName;
@@ -18,7 +22,7 @@ public class Student {
     private String levelOfStudy;
     private List<Booking> bookings;
 
-    private Student(){
+    protected Student(){
     }
     private Student(Builder builder){
         this.studentNumber = builder.studentNumber;
