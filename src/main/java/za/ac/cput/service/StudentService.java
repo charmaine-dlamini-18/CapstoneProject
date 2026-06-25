@@ -6,6 +6,12 @@ import za.ac.cput.domain.Student;
 import za.ac.cput.repository.StudentRepository;
 
 import java.util.List;
+/*
+StudentService.java
+StudentService
+Author: Sabelo Ceza - 220094489
+Date: 17/06/2026
+ */
 @Service
 public class StudentService implements IStudentService {
 
