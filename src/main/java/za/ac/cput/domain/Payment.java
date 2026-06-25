@@ -1,7 +1,5 @@
 package za.ac.cput.domain;
 
-import java.time.LocalDateTime;
-
 /*
 Payment.java
 Payment domain class
@@ -10,15 +8,24 @@ Author: Safiya Elmi
 Date: 22 March 2026
 */
 
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
 public class Payment {
+
+    @Id
     private String paymentRef;
     private double amount;
     private LocalDateTime paymentDate;
     private String paymentMethod;
     private String status;
+
+    @OneToOne
+    @JoinColumn(name = "bookingId")
     private Booking booking;
 
-    private Payment() {
+    protected Payment() {
     }
 
     private Payment(Builder builder) {
@@ -110,7 +117,6 @@ public class Payment {
             this.paymentMethod = payment.paymentMethod;
             this.status = payment.status;
             this.booking = payment.booking;
-
             return this;
         }
 
