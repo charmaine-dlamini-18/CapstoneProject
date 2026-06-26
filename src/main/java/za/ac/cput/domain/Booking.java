@@ -7,9 +7,12 @@ Date: 13/03/2026
 
 package za.ac.cput.domain;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 public class Booking {
+    @Id
     private String bookingId;
     private String studentNumber;
     private String subjectCode;
@@ -18,8 +21,16 @@ public class Booking {
     private String tutorId;
     private LocalDateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
-    private Booking() {
+    @OneToOne(mappedBy = "booking",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Payment payment;
+
+    protected Booking() {
 
     }
 
@@ -31,6 +42,8 @@ public class Booking {
         this.duration = builder.duration;
         this.tutorId = builder.tutorId;
         this.date = builder.date;
+        this.student = builder.student;
+        this.payment = builder.payment;
 
 
     }
@@ -57,8 +70,16 @@ public class Booking {
     public String getTutorId() {
         return tutorId;
     }
+
     public LocalDateTime getDate() {
         return date;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+    public Payment getPayment() {
+        return payment;
     }
 
 
@@ -71,7 +92,9 @@ public class Booking {
                 "\nSession Type: " + sessionType +
                 "\nDuration: " + duration +
                 "\nTutor Id: " + tutorId +
-                "\nDate: " + date;
+                "\nDate: " + date +
+                "\nStudent: " + student +
+                "\nPayment: " + payment;
     }
 
     public static class Builder {
@@ -82,6 +105,8 @@ public class Booking {
         private String duration;
         private String tutorId;
         private LocalDateTime date;
+        private Student student;
+        private Payment payment;
 
         public Builder copy(Booking booking) {
             this.bookingId = booking.bookingId;
@@ -91,6 +116,8 @@ public class Booking {
             this.duration = booking.duration;
             this.tutorId = booking.tutorId;
             this.date = booking.date;
+            this.student = booking.student;
+            this.payment = booking.payment;
             return this;
         }
 
@@ -127,6 +154,16 @@ public class Booking {
 
         public Builder setDate(LocalDateTime date) {
             this.date = date;
+            return this;
+        }
+
+        public Builder setStudent(Student student) {
+            this.student = student;
+            return this;
+        }
+
+        public Builder setPayment(Payment payment) {
+            this.payment = payment;
             return this;
         }
 
