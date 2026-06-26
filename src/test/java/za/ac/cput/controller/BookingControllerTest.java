@@ -12,9 +12,14 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import za.ac.cput.domain.Booking;
+import za.ac.cput.domain.Payment;
+import za.ac.cput.domain.Student;
 import za.ac.cput.factory.BookingFactory;
+import za.ac.cput.factory.PaymentFactory;
+import za.ac.cput.factory.StudentFactory;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,9 +35,37 @@ class BookingControllerTest {
 
     @BeforeAll
     public static void setUp(){
-        Booking booking = BookingFactory.createBooking("B9876", "222123456",
-                "PRM372S", "Face-to-Face", "2 hours", "T123456",
-                LocalDateTime.of(2026, 07, 02 , 11, 30));
+        Student student = StudentFactory.createStudent(
+                "220094489",
+                "Sabelo",
+                "Ceza",
+                "220094489@mycput.ac.za",
+                "073 985 1110",
+                "SabieCeza2026",
+                "Third year",
+                new ArrayList<>()
+        );
+
+        Payment payment = PaymentFactory.createPayment(
+                "PAY001",
+                1500.00,
+                LocalDateTime.now(),
+                "Card",
+                "Completed",
+                null
+        );
+
+        booking = BookingFactory.createBooking(
+                "B12345",
+                "222056401",
+                "ADP362S",
+                "Online",
+                "2 hours",
+                "T987654",
+                LocalDateTime.of(2026, 5, 20, 10, 30),
+                student,
+                payment
+        );
     }
 
     @Test
