@@ -14,14 +14,13 @@ import java.time.LocalDateTime;
 public class Booking {
     @Id
     private String bookingId;
-    private String studentNumber;
     private String subjectCode;
     private String sessionType;
     private String duration;
     private String tutorId;
     private LocalDateTime date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentNumber")
     private Student student;
 
@@ -36,7 +35,6 @@ public class Booking {
 
     private Booking(Builder builder) {
         this.bookingId = builder.bookingId;
-        this.studentNumber = builder.studentNumber;
         this.subjectCode = builder.subjectCode;
         this.sessionType = builder.sessionType;
         this.duration = builder.duration;
@@ -52,13 +50,10 @@ public class Booking {
         return bookingId;
     }
 
-    public String getStudentNumber() {
-        return studentNumber;
-    }
-
     public String getSubjectCode() {
         return subjectCode;
     }
+
     public String getSessionType() {
         return sessionType;
     }
@@ -87,19 +82,15 @@ public class Booking {
     public String toString() {
         return "Booking" +
                 "\nBooking Id: " + bookingId +
-                "\nStudent Number: " + studentNumber +
                 "\nSubject Code: " + subjectCode +
                 "\nSession Type: " + sessionType +
                 "\nDuration: " + duration +
                 "\nTutor Id: " + tutorId +
-                "\nDate: " + date +
-                "\nStudent: " + student +
-                "\nPayment: " + payment;
+                "\nDate: " + date;
     }
 
     public static class Builder {
         private String bookingId;
-        private String studentNumber;
         private String subjectCode;
         private String sessionType;
         private String duration;
@@ -110,7 +101,6 @@ public class Booking {
 
         public Builder copy(Booking booking) {
             this.bookingId = booking.bookingId;
-            this.studentNumber = booking.studentNumber;
             this.subjectCode = booking.subjectCode;
             this.sessionType = booking.sessionType;
             this.duration = booking.duration;
@@ -124,11 +114,6 @@ public class Booking {
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
-            return this;
-        }
-
-        public Builder setStudentNumber(String studentNumber) {
-            this.studentNumber = studentNumber;
             return this;
         }
 
