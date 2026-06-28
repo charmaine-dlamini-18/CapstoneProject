@@ -1,6 +1,4 @@
-package za.ac.cput.repository;
-
-
+package za.ac.cput.service;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,32 +10,33 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
-AdminRepositoryTest.java
-Admin repository testing
-Author: Thimna Barbara Booi - 230232108
-Date: 25/03/2026
+AdminServiceTest.java
+AdminServiceTest
+Author: Thimna Booi - 230232108
+Date: 25/06/2026
  */
+
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class AdminRepositoryTest {
+class AdminServiceTest {
 
     @Autowired
-    private AdminRepository repository;
+    private AdminService service;
 
     private static final Admin admin =
             AdminFactory.createAdmin("A02", "SystemAdmin");
 
     @Test
     void a_create() {
-        Admin created = repository.save(admin);
+        Admin created = service.create(admin);
         assertNotNull(created);
         System.out.println(created);
     }
 
     @Test
     void b_read() {
-        Admin read = repository.findById(admin.getAdminId()).orElse(null);
+        Admin read = service.read(admin.getAdminId());
         assertNotNull(read);
         System.out.println(read);
     }
@@ -49,7 +48,7 @@ class AdminRepositoryTest {
                 .setRole("DatabaseAdmin")
                 .build();
 
-        Admin updated = repository.save(updatedAdmin);
+        Admin updated = service.update(updatedAdmin);
         assertNotNull(updated);
         System.out.println(updated);
     }
@@ -57,14 +56,12 @@ class AdminRepositoryTest {
     @Test
     @Disabled
     void d_delete() {
-        repository.deleteById(admin.getAdminId());
-        assertFalse(repository.findById(admin.getAdminId()).isPresent());
-        System.out.println("Admin has been deleted successfully");
+        assertTrue(service.delete(admin.getAdminId()));
     }
 
     @Test
     void e_getAll() {
-        List<Admin> admins = repository.findAll();
+        List<Admin> admins = service.getAll();
         assertNotNull(admins);
         System.out.println(admins);
     }
