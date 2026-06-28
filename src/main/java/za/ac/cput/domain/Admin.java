@@ -5,6 +5,7 @@ Admin POJO with builder
 Author: Thimna Booi - 230232108
 Date: 13/03/2026
  */
+import java.util.List;
 
 public class Admin {
 
@@ -61,5 +62,7 @@ public class Admin {
         public Admin build() {
             return new Admin(this);
         }
+  
     }
+
 }

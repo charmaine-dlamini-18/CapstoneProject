@@ -2,6 +2,7 @@ package za.ac.cput.factory;
 
 import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Payment;
+
 import za.ac.cput.util.Helper;
 
 import java.time.LocalDateTime;
@@ -42,11 +43,6 @@ public class PaymentFactory {
                 .setPaymentMethod(paymentMethod)
                 .setStatus(status)
                 .setBooking(booking)
-
-                .build();
-    }
-}                .setPaymentMethod(paymentMethod)
-                .setStatus(status)
                 .build();
     }
 }

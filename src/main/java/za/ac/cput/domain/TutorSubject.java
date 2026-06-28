@@ -1,4 +1,8 @@
 package za.ac.cput.domain;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+
 import java.util.List;
 
 /*
@@ -7,16 +11,18 @@ TutorSubject domain class
 Author: Sabelo Ceza - 220094489
 Date: 1/05/2026
 */
-
-    public class TutorSubject {
-
+@Entity
+@IdClass(TutorSubjectId.class)
+public class TutorSubject {
+        @Id
         private String subjectCode;
+        @Id
         private String tutorId;
         private int yearsTaught;
         private List<Subject> subjects;
         private List<Tutor> tutors;
 
-        private TutorSubject() {
+        protected TutorSubject() {
         }
 
         private TutorSubject(Builder builder) {

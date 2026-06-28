@@ -73,37 +73,4 @@ class PaymentRepositoryTest {
     void e_getAll() {
         System.out.println(repository.getAll());
     }
-}    }
-
-    @Test
-    void b_read() {
-        Payment read = repository.read(payment.getPaymentRef());
-        assertNotNull(read);
-        System.out.println(read.toString());
-    }
-
-    @Test
-    void c_update() {
-        Payment newRecord = new Payment.Builder()
-                .copy(payment)
-                .setAmount(2000.00)
-                .setStatus("Pending")
-                .build();
-
-        Payment updated = repository.update(newRecord);
-        assertNotNull(updated);
-        System.out.println(updated);
-    }
-
-    @Test
-    @Disabled
-    void d_delete() {
-        assertTrue(repository.delete(payment.getPaymentRef()));
-        System.out.println("Payment has been successfully deleted");
-    }
-
-    @Test
-    void e_getAll() {
-        System.out.println(repository.getAll());
-    }
 }

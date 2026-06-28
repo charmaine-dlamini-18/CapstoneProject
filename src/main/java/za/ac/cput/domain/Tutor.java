@@ -1,6 +1,8 @@
 package za.ac.cput.domain;
-import java.util.List;
 
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 /*
 Tutor.java
 Tutor domain class
@@ -9,17 +11,23 @@ Author: Imaan Achmat
 Date : 15 March 2026
  */
 
+@Entity
 public class Tutor {
+
+    @Id
     private String tutorId;
+
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String password;
     private double hourlyRate;
-    private List<Booking> bookings;
 
-    private Tutor() {
+    @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Booking> bookings = new ArrayList<>();
+
+    protected Tutor() {
     }
 
     private Tutor(Builder builder) {

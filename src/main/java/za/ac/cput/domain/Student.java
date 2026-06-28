@@ -6,9 +6,13 @@ Author: Sabelo Ceza - 220094489
 Date: 13/03/2026
  */
 
-import java.util.List;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+@Entity
 public class Student {
+    @Id
     private String studentNumber;
     private String firstName;
     private String lastName;
@@ -16,9 +20,10 @@ public class Student {
     private String phoneNumber;
     private String password;
     private String levelOfStudy;
-    private List<Booking> bookings;
+    @OneToMany(mappedBy ="student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Booking> bookings = new ArrayList<>();
 
-    private Student(){
+    protected Student(){
     }
     private Student(Builder builder){
         this.studentNumber = builder.studentNumber;

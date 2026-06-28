@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import za.ac.cput.domain.Subject;
 import za.ac.cput.domain.Tutor;
+import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.TutorSubject;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ class TutorSubjectFactoryTest {
         assertNotNull(subject);
         subjects.add(subject);
 
+        List<Booking> bookings = new ArrayList<>();
         List<Tutor> tutors = new ArrayList<>();
         Tutor tutor = TutorFactory.createTutor(
                 "T001",
@@ -44,8 +46,7 @@ class TutorSubjectFactoryTest {
                 "imaan@gmail.com",
                 "0211377053",
                 "password",
-                150.0
-        );
+                150.0, bookings);
 
         assertNotNull(tutor);
         tutors.add(tutor);
