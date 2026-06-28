@@ -18,10 +18,8 @@ import za.ac.cput.domain.Student;
 import za.ac.cput.factory.BookingFactory;
 import za.ac.cput.factory.PaymentFactory;
 import za.ac.cput.factory.StudentFactory;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -51,7 +49,6 @@ class BookingServiceTest {
 
     Booking booking = BookingFactory.createBooking(
             "B12345",
-            "222056401",
             "ADP362S",
             "Online",
             "2 hours",
