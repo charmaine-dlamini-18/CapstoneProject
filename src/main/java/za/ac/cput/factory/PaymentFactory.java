@@ -24,16 +24,16 @@ public class PaymentFactory {
                                         String status,
                                         Booking booking) {
 
-        if (Helper.isNullOrEmpty(paymentRef)) {
-            throw new IllegalArgumentException("Payment reference cannot be empty");
+        if (Helper.isNullOrEmpty(paymentRef)
+        || Helper.isNullOrEmpty(paymentMethod)
+        || Helper.isNullOrEmpty(status)) {
+            return null;
         }
-
-        if (Helper.isNullOrEmpty(paymentMethod)) {
-            throw new IllegalArgumentException("Payment method cannot be empty");
+        if(!Helper.isPositive(amount)) {
+            return null;
         }
-
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Amount must be greater than 0");
+        if (Helper.isNull(paymentDate) || Helper.isNull(booking)) {
+            return null;
         }
 
         return new Payment.Builder()

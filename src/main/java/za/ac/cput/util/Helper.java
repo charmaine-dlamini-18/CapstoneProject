@@ -29,4 +29,7 @@ public class Helper {
         return value > 0;
 
     }
+    public static boolean isPositive(double value) {
+        return value > 0;
+    }
 }
