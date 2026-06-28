@@ -1,16 +1,12 @@
 package za.ac.cput.factory;
-
 import org.junit.jupiter.api.*;
 import za.ac.cput.domain.Booking;
+import za.ac.cput.domain.Payment;
 import za.ac.cput.domain.Student;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-
-
 
 /*
 StudentFactoryTest.java
@@ -21,19 +17,43 @@ Date: 23/03/2026
 
 class StudentFactoryTest {
 
-    List<Booking> bookings = new ArrayList<>();
     @Test
     void createStudent() {
-        Booking booking = BookingFactory.createBooking("B12345", "222056401",
-                "ADP362S", "Online", "2 hours", "T987654",
-                LocalDateTime.of(2026, 5, 20 , 10, 30));
-        //Getting a list of bookings
-        List<Booking> bookings = List.of(booking);
 
-        Student student = StudentFactory.createStudent("220094489","Sabelo",
-                "Ceza","220094489@mycput.ac.za","073 985 1110",
-                "SabieCeza2026","Third year", bookings);
+        Student student = StudentFactory.createStudent(
+                "220094489",
+                "Sabelo",
+                "Ceza",
+                "220094489@mycput.ac.za",
+                "073 985 1110",
+                "SabieCeza2026",
+                "Third year",
+                new ArrayList<>()
+        );
+
+        Payment payment = PaymentFactory.createPayment(
+                "PAY001",
+                1500.00,
+                LocalDateTime.now(),
+                "Card",
+                "Completed",
+                null
+        );
+
+        Booking booking = BookingFactory.createBooking(
+                "B12345",
+                "ADP362S",
+                "Online",
+                "2 hours",
+                "T987654",
+                LocalDateTime.of(2026, 5, 20, 10, 30),
+                student,
+                payment
+        );
+
+        student.getBookings().add(booking);
         assertNotNull(student);
         System.out.println(student);
     }
-}
+
+    }
