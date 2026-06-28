@@ -17,10 +17,8 @@ import za.ac.cput.domain.Student;
 import za.ac.cput.factory.BookingFactory;
 import za.ac.cput.factory.PaymentFactory;
 import za.ac.cput.factory.StudentFactory;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -31,7 +29,7 @@ class BookingControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-    private static final String BASE_URL = "http://localhost:8080/Capstone/booking";
+    private static final String BASE_URL = "http://localhost:8080/tutoring/booking";
 
     @BeforeAll
     public static void setUp(){
@@ -57,7 +55,6 @@ class BookingControllerTest {
 
         booking = BookingFactory.createBooking(
                 "B12345",
-                "222056401",
                 "ADP362S",
                 "Online",
                 "2 hours",
