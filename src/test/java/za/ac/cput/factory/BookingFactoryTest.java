@@ -44,7 +44,6 @@ class BookingFactoryTest {
 
         booking = BookingFactory.createBooking(
                 "B12345",
-                "222056401",
                 "ADP362S",
                 "Online",
                 "2 hours",
@@ -59,6 +58,9 @@ class BookingFactoryTest {
     void createBooking() {
         assertNotNull(booking);
         System.out.println(booking);
+        assertEquals("B12345", booking.getBookingId());
+        assertEquals("ADP362S", booking.getSubjectCode());
+        System.out.println(booking.getStudent().getStudentNumber());
 
     }
 }

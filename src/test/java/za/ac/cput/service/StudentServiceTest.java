@@ -7,10 +7,13 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Booking;
+import za.ac.cput.domain.Payment;
 import za.ac.cput.domain.Student;
 import za.ac.cput.factory.BookingFactory;
+import za.ac.cput.factory.PaymentFactory;
 import za.ac.cput.factory.StudentFactory;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 /*
@@ -27,21 +30,34 @@ class StudentServiceTest {
     @Autowired
     private StudentService studentService;          //Student service object
 
+    Student student = StudentFactory.createStudent(
+            "220094489",
+            "Sabelo",
+            "Ceza",
+            "220094489@mycput.ac.za",
+            "073 985 1110",
+            "SabieCeza2026",
+            "Third year",
+            new ArrayList<>()
+    );
+    Payment payment = PaymentFactory.createPayment(
+            "PAY001",
+            1500.00,
+            LocalDateTime.now(),
+            "Card",
+            "Completed",
+            null
+    );
     private Booking booking = BookingFactory.createBooking(
             "B12345",
-            "222056401",
             "ADP362S",
             "Online",
             "2 hours",
             "T987654",
-            LocalDateTime.of(2026, 5, 20, 10, 30)
+            LocalDateTime.of(2026, 5, 20, 10, 30),student, payment
     );
             //stores booking in a list
     private List<Booking> bookings = List.of(booking);
-
-    private Student student = StudentFactory.createStudent("220094489","Sabelo",
-            "Ceza","220094489@mycput.ac.za","073 985 1110",
-            "SabieCeza2026","Third year", bookings);
 
     @Test
     void a_create() {

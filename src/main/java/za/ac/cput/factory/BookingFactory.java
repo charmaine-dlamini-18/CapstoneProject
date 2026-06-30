@@ -13,12 +13,10 @@ import za.ac.cput.util.Helper;
 import java.time.LocalDateTime;
 
 public class BookingFactory {
-    public static Booking createBooking(String bookingId, String studentNumber,
-                                        String subjectCode, String sessionType, String duration,
+    public static Booking createBooking(String bookingId, String subjectCode, String sessionType, String duration,
                                         String tutorId, LocalDateTime date, Student student, Payment payment){
 
         if(Helper.isNullOrEmpty(bookingId)
-                || Helper.isNullOrEmpty(studentNumber)
                 || Helper.isNullOrEmpty(subjectCode)
                 || Helper.isNullOrEmpty(sessionType)
                 || Helper.isNullOrEmpty(duration)
@@ -27,12 +25,11 @@ public class BookingFactory {
         ){
             return null;
         }
-        if(Helper.isNull(date) || (Helper.isNull(student)) || (Helper.isNull(payment))) {
+        if(Helper.isNull(date) || Helper.isNull(student)) {
             return null;
         }
         return new Booking.Builder()
                 .setBookingId(bookingId)
-                .setStudentNumber(studentNumber)
                 .setSubjectCode(subjectCode)
                 .setSessionType(sessionType)
                 .setDuration(duration)
