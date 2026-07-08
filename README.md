@@ -1,13 +1,22 @@
 # Introduction
 
-*To be completed.*
+Tutoring Booking Service is a digital platform designed to connect university students with qualified tutors foe academic support.
+Many students struggle to find reliable tutors and book sessions without long whatsapp chains and missed messages.This service solves
+solves that by allowing students to connect with available tutors, view subjects, check time slots and book tutoring sessions online in minutes.
+
+The main goal is to make academic support more accessible, organized and stress-free for students while giving tutorss a simple way to manage their bookings, students and payments all in one secured place.
 
 ---
 
 # Objectives
 
-*To be completed.*
-
+- Simplify Booking: Allow students to search, book, pay for tutoring sessions efectively.
+- Connect Students and Tutours: Match students with qualified tutors for their desired modules.
+- Manage Schedules: Allow both students and tutors to have access to a clear calender to avoid clashes and missed sessions.
+- Increase Access: To make tutoring available to students anytime, anywhere even after school hours.
+- Improves Results: To help studentd get academic support faster so they can improve their marks.
+- Reduce No-Shows: Send automatic reminders to students and tutors before a session
+- Build Trust: Allow students to rate and review tutors.
 ---
 
 # TUTORING SERVICES UML
