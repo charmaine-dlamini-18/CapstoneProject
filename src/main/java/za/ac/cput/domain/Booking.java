@@ -17,12 +17,15 @@ public class Booking {
     private String subjectCode;
     private String sessionType;
     private String duration;
-    private String tutorId;
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentNumber")
     private Student student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tutorId")
+    private Tutor tutor;
 
     @OneToOne(mappedBy = "booking",
             cascade = CascadeType.ALL,
@@ -38,11 +41,10 @@ public class Booking {
         this.subjectCode = builder.subjectCode;
         this.sessionType = builder.sessionType;
         this.duration = builder.duration;
-        this.tutorId = builder.tutorId;
         this.date = builder.date;
         this.student = builder.student;
+        this.tutor = builder.tutor;
         this.payment = builder.payment;
-
 
     }
 
@@ -62,10 +64,6 @@ public class Booking {
         return duration;
     }
 
-    public String getTutorId() {
-        return tutorId;
-    }
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -73,9 +71,15 @@ public class Booking {
     public Student getStudent() {
         return student;
     }
+
+    public Tutor getTutor() {
+        return tutor;
+    }
+
     public Payment getPayment() {
         return payment;
     }
+
 
 
     @Override
@@ -85,8 +89,9 @@ public class Booking {
                 "\nSubject Code: " + subjectCode +
                 "\nSession Type: " + sessionType +
                 "\nDuration: " + duration +
-                "\nTutor Id: " + tutorId +
-                "\nDate: " + date;
+                "\nDate: " + date +
+                "\nStudent Number: " + student.getStudentNumber() +
+                "\nTutor Id: " + tutor.getTutorId();
     }
 
     public static class Builder {
@@ -94,20 +99,20 @@ public class Booking {
         private String subjectCode;
         private String sessionType;
         private String duration;
-        private String tutorId;
         private LocalDateTime date;
         private Student student;
         private Payment payment;
+        private Tutor tutor;
 
         public Builder copy(Booking booking) {
             this.bookingId = booking.bookingId;
             this.subjectCode = booking.subjectCode;
             this.sessionType = booking.sessionType;
             this.duration = booking.duration;
-            this.tutorId = booking.tutorId;
             this.date = booking.date;
             this.student = booking.student;
             this.payment = booking.payment;
+            this.tutor = booking.tutor;
             return this;
         }
 
@@ -132,11 +137,6 @@ public class Booking {
             return this;
         }
 
-        public Builder setTutorId(String tutorId) {
-            this.tutorId = tutorId;
-            return this;
-        }
-
         public Builder setDate(LocalDateTime date) {
             this.date = date;
             return this;
@@ -144,6 +144,11 @@ public class Booking {
 
         public Builder setStudent(Student student) {
             this.student = student;
+            return this;
+        }
+
+        public Builder setTutor(Tutor tutor) {
+            this.tutor = tutor;
             return this;
         }
 
