@@ -15,11 +15,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Payment;
 import za.ac.cput.domain.Student;
+import za.ac.cput.domain.Tutor;
 import za.ac.cput.factory.BookingFactory;
 import za.ac.cput.factory.PaymentFactory;
 import za.ac.cput.factory.StudentFactory;
+import za.ac.cput.factory.TutorFactory;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -38,6 +43,12 @@ class BookingServiceTest {
             new ArrayList<>()
     );
 
+    List<Booking> bookings = new ArrayList<>();
+
+    Tutor tutor = TutorFactory.createTutor("T001", "Imaan", "Achmat",
+            "imaan@gmail.com", "0211377053",
+            "password", 150.0, bookings);
+
     Payment payment = PaymentFactory.createPayment(
             "PAY001",
             1500.00,
@@ -52,11 +63,11 @@ class BookingServiceTest {
             "ADP362S",
             "Online",
             "2 hours",
-            "T987654",
             LocalDateTime.of(2026, 5, 20, 10, 30),
             student,
+            tutor,
             payment
-        );
+    );
 
     @Test
     void a_create() {
