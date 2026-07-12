@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import za.ac.cput.domain.TutorSubject;
 import za.ac.cput.domain.Tutor;
 import za.ac.cput.domain.Subject;
+import za.ac.cput.factory.SubjectFactory;
+import za.ac.cput.factory.TutorFactory;
 import za.ac.cput.factory.TutorSubjectFactory;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +35,23 @@ class TutorSubjectControllerTest {
     @BeforeAll
     public static void setUp() {
 
-        ArrayList<Subject> subjects = new ArrayList<>();
-        ArrayList<Tutor> tutors = new ArrayList<>();
+        Subject subjects = SubjectFactory.createSubject(
+                "ADP362S",
+                "Application Development Practice",
+                "Programming Module",
+                "3rd Year"
+        );
+
+        Tutor tutors = TutorFactory.createTutor(
+                "T987654",
+                "Imaan",
+                "Achmat",
+                "imaan@gmail.com",
+                "0211377053",
+                "password",
+                150.0,
+                new ArrayList<>()
+        );
 
         tutorSubject = TutorSubjectFactory.createTutorSubject(
                 "ADP362S",
