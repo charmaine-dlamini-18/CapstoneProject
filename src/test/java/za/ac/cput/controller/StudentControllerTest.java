@@ -48,20 +48,22 @@ class StudentControllerTest {
                 "imaan@gmail.com", "0211377053",
                 "password", 150.0, bookings);
 
+
+        Booking booking = BookingFactory.createBooking(
+                "B12345",
+                "ADP362S",
+                "Online",
+                "2 hours",
+                LocalDateTime.of(2026, 5, 20, 10, 30), student, tutor, null
+        );
+
         Payment payment = PaymentFactory.createPayment(
                 "PAY001",
                 1500.00,
                 LocalDateTime.now(),
                 "Card",
                 "Completed",
-                null
-        );
-        Booking booking = BookingFactory.createBooking(
-                "B12345",
-                "ADP362S",
-                "Online",
-                "2 hours",
-                LocalDateTime.of(2026, 5, 20, 10, 30), student, tutor, payment
+                booking
         );
     }
     @Test
