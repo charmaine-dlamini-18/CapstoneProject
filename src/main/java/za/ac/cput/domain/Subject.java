@@ -1,5 +1,9 @@
 
 package za.ac.cput.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 /*
 subject.java
 Subject domain class
@@ -7,15 +11,15 @@ Author:Wendy Bayise
 (222828978)
 Date: 15 March 2026
  */
-
+@Entity
 public class Subject {
-
+@Id
     private String subjectCode;
     private String subjectName;
     private String subjectDescription;
     private String gradeLevel;
 
-    private Subject() {
+    protected Subject() {
     }
 
     private Subject(Builder builder){

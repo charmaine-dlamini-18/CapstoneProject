@@ -14,7 +14,7 @@ Date: 1/05/2026
 public class TutorSubjectFactory {
 
     public static TutorSubject createTutorSubject(String subjectCode, String tutorId, int yearsTaught,
-                                             List<Subject> subjects, List<Tutor> tutors) {
+                                             Subject subjects, Tutor tutors) {
 
         if (Helper.isNullOrEmpty(subjectCode)
                 || Helper.isNullOrEmpty(tutorId)) {

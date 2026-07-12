@@ -27,19 +27,16 @@ class TutorSubjectFactoryTest {
     void setUp() {
 
 
-        List<Subject> subjects = new ArrayList<>();
-        Subject subject = SubjectFactory.createSubject(
+        Subject subjects = SubjectFactory.createSubject(
                 "ADP362S",
                 "Application Development Practice",
                 "Programming Module",
                 "3rd Year"
         );
-        assertNotNull(subject);
-        subjects.add(subject);
+        assertNotNull(subjects);
 
         List<Booking> bookings = new ArrayList<>();
-        List<Tutor> tutors = new ArrayList<>();
-        Tutor tutor = TutorFactory.createTutor(
+        Tutor tutors = TutorFactory.createTutor(
                 "T001",
                 "Imaan",
                 "Achmat",
@@ -48,8 +45,7 @@ class TutorSubjectFactoryTest {
                 "password",
                 150.0, bookings);
 
-        assertNotNull(tutor);
-        tutors.add(tutor);
+        assertNotNull(tutors);
 
         tutorSubject = TutorSubjectFactory.createTutorSubject(
                 "ADP362S",

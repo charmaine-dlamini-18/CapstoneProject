@@ -1,7 +1,5 @@
 package za.ac.cput.domain;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -19,8 +17,14 @@ public class TutorSubject {
         @Id
         private String tutorId;
         private int yearsTaught;
-        private List<Subject> subjects;
-        private List<Tutor> tutors;
+
+    @ManyToOne
+    @JoinColumn(name = "subjectCode")
+    private Subject subjects;
+
+    @ManyToOne
+    @JoinColumn(name = "tutorId")
+    private Tutor tutors;
 
         protected TutorSubject() {
         }
@@ -46,11 +50,11 @@ public class TutorSubject {
             return yearsTaught;
         }
 
-        public List<Subject> getTutorSubjects() {
+        public Subject getTutorSubjects() {
             return null;
         }
 
-        public List<Tutor> getSubjectTutors() {
+        public Tutor getSubjectTutors() {
             return null;
         }
 
@@ -70,8 +74,8 @@ public class TutorSubject {
             private String subjectCode;
             private String tutorId;
             private int yearsTaught;
-            private List<Subject> subjects;
-            private List<Tutor> tutors;
+            private Subject subjects;
+            private Tutor tutors;
 
 
             public Builder setSubjectCode(String subjectCode) {
@@ -89,12 +93,12 @@ public class TutorSubject {
                 return this;
             }
 
-            public Builder setTutors(List<Tutor> tutors) {
+            public Builder setTutors(Tutor tutors) {
                 this.tutors = tutors;
                 return this;
             }
 
-            public Builder setSubjects(List<Subject> subjects) {
+            public Builder setSubjects(Subject subjects) {
                 this.subjects = subjects;
                 return this;
             }

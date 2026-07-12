@@ -27,11 +27,9 @@ class TutorSubjectServiceTest {
 
     @Autowired
     private TutorSubjectService service;
-    private static final List<Subject> subjects = new ArrayList<>();
-    private static final List<Tutor> tutors = new ArrayList<>();
     private static final List<Booking> bookings = new ArrayList<>();
 
-    private static final Tutor tutor = TutorFactory.createTutor(
+    private static final Tutor tutors = TutorFactory.createTutor(
             "T001",
             "Imaan",
             "Achmat",
@@ -41,7 +39,7 @@ class TutorSubjectServiceTest {
             150.0,
             bookings
     );
-    private static final Subject subject = SubjectFactory.createSubject(
+    private static final Subject subjects = SubjectFactory.createSubject(
             "ADP362S",
             "Application Development Practice",
             "Programming Module",
@@ -51,9 +49,6 @@ class TutorSubjectServiceTest {
     private static final TutorSubject tutorSubject;
 
     static {
-        subjects.add(subject);
-        tutors.add(tutor);
-
         tutorSubject = TutorSubjectFactory.createTutorSubject(
                 "ADP362S",
                 "T001",
