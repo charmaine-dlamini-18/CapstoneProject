@@ -25,7 +25,7 @@ class TutorControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/Capstone/tutor";
+    private static final String BASE_URL = "http://localhost:8080/tutoring/tutor";
 
     @BeforeAll
     public static void setUp() {
@@ -72,7 +72,7 @@ class TutorControllerTest {
     }
     @Test
     void d_getAll() {
-        String url = BASE_URL + "/getAll";
+        String url = BASE_URL + "/getall";
         ResponseEntity<Tutor[]> response = this.restTemplate.getForEntity(url, Tutor[].class);
         assertNotNull(response.getBody());
         System.out.println("Get all Tutors:");

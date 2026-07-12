@@ -5,14 +5,17 @@ Admin POJO with builder
 Author: Thimna Booi - 230232108
 Date: 13/03/2026
  */
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.List;
-
+@Entity
 public class Admin {
-
+@Id
     private String adminId;
     private  String role;
 
-    private Admin() {
+    protected Admin() {
 
     }
 
@@ -43,7 +46,7 @@ public class Admin {
         private String adminId;
         private String role;
 
-        public Builder setAdminId(String id) {
+        public Builder setAdminId(String  adminId) {
             this.adminId = adminId;
             return this;
         }

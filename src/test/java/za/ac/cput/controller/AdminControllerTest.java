@@ -27,7 +27,7 @@ class AdminControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/Capstone/admin";
+    private static final String BASE_URL = "http://localhost:8080/tutoring/admin";
 
     @BeforeAll
     public static void setUp() {

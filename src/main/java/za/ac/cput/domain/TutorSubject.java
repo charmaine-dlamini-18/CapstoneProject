@@ -12,19 +12,25 @@ Date: 1/05/2026
 @Entity
 @IdClass(TutorSubjectId.class)
 public class TutorSubject {
-        @Id
-        private String subjectCode;
-        @Id
-        private String tutorId;
-        private int yearsTaught;
+    @Id
+    @Column(name = "subjectCode")
+    private String subjectCode;
 
+    @Id
+    @Column(name = "tutorId")
+    private String tutorId;
+
+    private int yearsTaught;
     @ManyToOne
-    @JoinColumn(name = "subjectCode")
+    @JoinColumn(name = "subjectCode", insertable = false, updatable = false)
     private Subject subjects;
 
     @ManyToOne
-    @JoinColumn(name = "tutorId")
+    @JoinColumn(name = "tutorId", insertable = false, updatable = false)
     private Tutor tutors;
+
+
+
 
         protected TutorSubject() {
         }
@@ -51,11 +57,11 @@ public class TutorSubject {
         }
 
         public Subject getTutorSubjects() {
-            return null;
+            return subjects;
         }
 
         public Tutor getSubjectTutors() {
-            return null;
+            return tutors;
         }
 
         @Override
