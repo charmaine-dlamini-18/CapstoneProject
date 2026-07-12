@@ -55,15 +55,6 @@ class BookingControllerTest {
                 "imaan@gmail.com", "0211377053",
                 "password", 150.0, bookings);
 
-        Payment payment = PaymentFactory.createPayment(
-                "PAY001",
-                1500.00,
-                LocalDateTime.now(),
-                "Card",
-                "Completed",
-                null
-        );
-
         booking = BookingFactory.createBooking(
                 "B12345",
                 "ADP362S",
@@ -72,7 +63,16 @@ class BookingControllerTest {
                 LocalDateTime.of(2026, 5, 20, 10, 30),
                 student,
                 tutor,
-                payment
+                null
+        );
+
+        Payment payment = PaymentFactory.createPayment(
+                "PAY001",
+                1500.00,
+                LocalDateTime.now(),
+                "Card",
+                "Completed",
+                booking
         );
     }
 

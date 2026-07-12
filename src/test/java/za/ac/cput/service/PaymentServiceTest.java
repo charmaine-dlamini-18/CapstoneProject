@@ -41,14 +41,7 @@ class PaymentServiceTest {
                 "Third year",
                 new ArrayList<>()
         );
-    Payment payment = PaymentFactory.createPayment(
-            "PAY001",
-            1500.00,
-            LocalDateTime.now(),
-            "Card",
-            "Completed",
-            null
-            );
+
 
     List<Booking> bookings = new ArrayList<>();
 
@@ -62,8 +55,17 @@ class PaymentServiceTest {
                 "Online",
                 "2 hours",
                 LocalDateTime.of(2026, 5, 20, 10, 30),
-                student, tutor, payment
+                student, tutor, null
         );
+
+    Payment payment = PaymentFactory.createPayment(
+            "PAY001",
+            1500.00,
+            LocalDateTime.now(),
+            "Card",
+            "Completed",
+            booking
+    );
 
     @Test
     void a_create() {
