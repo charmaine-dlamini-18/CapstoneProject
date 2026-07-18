@@ -35,14 +35,14 @@ class TutorSubjectControllerTest {
     @BeforeAll
     public static void setUp() {
 
-        Subject subjects = SubjectFactory.createSubject(
+        Subject subject = SubjectFactory.createSubject(
                 "ADP362S",
                 "Application Development Practice",
                 "Programming Module",
                 "3rd Year"
         );
 
-        Tutor tutors = TutorFactory.createTutor(
+        Tutor tutor = TutorFactory.createTutor(
                 "T987654",
                 "Imaan",
                 "Achmat",
@@ -57,8 +57,8 @@ class TutorSubjectControllerTest {
                 "ADP362S",
                 "T987654",
                 5,
-                subjects,
-                tutors
+                subject,
+                tutor
         );
     }
 

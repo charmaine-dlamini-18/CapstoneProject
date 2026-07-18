@@ -14,7 +14,7 @@ Date: 1/05/2026
 public class TutorSubjectFactory {
 
     public static TutorSubject createTutorSubject(String subjectCode, String tutorId, int yearsTaught,
-                                             Subject subjects, Tutor tutors) {
+                                             Subject subject, Tutor tutor) {
 
         if (Helper.isNullOrEmpty(subjectCode)
                 || Helper.isNullOrEmpty(tutorId)) {
@@ -23,16 +23,16 @@ public class TutorSubjectFactory {
         if (!Helper.isValidInt(yearsTaught)) {
             return null;
         }
-        if (Helper.isNull(subjects)
-                || Helper.isNull(tutors)) {
+        if (Helper.isNull(subject)
+                || Helper.isNull(tutor)) {
             return null;
         }
         return new TutorSubject.Builder()
                 .setSubjectCode(subjectCode)
                 .setTutorId(tutorId)
                 .setYearsTaught(yearsTaught)
-                .setSubjects(subjects)
-                .setTutors(tutors)
+                .setSubject(subject)
+                .setTutor(tutor)
                 .build();
 
     }

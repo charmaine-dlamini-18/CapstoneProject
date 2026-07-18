@@ -23,7 +23,7 @@ class SubjectServiceTest {
     private SubjectService subjectService;
 
     private Subject subject = SubjectFactory.createSubject(
-            "ADP3",
+            "ADP362S",
             "Application Development 3",
             "Intro to ADP",
             "3rd Year"
