@@ -23,11 +23,11 @@ public class TutorSubject {
     private int yearsTaught;
     @ManyToOne
     @JoinColumn(name = "subjectCode", insertable = false, updatable = false)
-    private Subject subjects;
+    private Subject subject;
 
     @ManyToOne
     @JoinColumn(name = "tutorId", insertable = false, updatable = false)
-    private Tutor tutors;
+    private Tutor tutor;
 
 
 
@@ -39,8 +39,8 @@ public class TutorSubject {
             this.subjectCode = builder.subjectCode;
             this.tutorId = builder.tutorId;
             this.yearsTaught = builder.yearsTaught;
-            this.subjects = builder.subjects;
-            this.tutors = builder.tutors;
+            this.subject = builder.subject;
+            this.tutor = builder.tutor;
 
         }
 
@@ -57,11 +57,11 @@ public class TutorSubject {
         }
 
         public Subject getTutorSubjects() {
-            return subjects;
+            return subject;
         }
 
         public Tutor getSubjectTutors() {
-            return tutors;
+            return tutor;
         }
 
         @Override
@@ -70,8 +70,8 @@ public class TutorSubject {
                     "\nsubjectCode: " + subjectCode +
                     "\nTutor Id: " + tutorId +
                     "\nYears Taught: " + yearsTaught+
-                    "\nSubjects: " + subjects +
-                    "\nTutors: " + tutors;
+                    "\nSubjects: " + subject +
+                    "\nTutors: " + tutor;
 
         }
 
@@ -80,8 +80,8 @@ public class TutorSubject {
             private String subjectCode;
             private String tutorId;
             private int yearsTaught;
-            private Subject subjects;
-            private Tutor tutors;
+            private Subject subject;
+            private Tutor tutor;
 
 
             public Builder setSubjectCode(String subjectCode) {
@@ -99,13 +99,13 @@ public class TutorSubject {
                 return this;
             }
 
-            public Builder setTutors(Tutor tutors) {
-                this.tutors = tutors;
+            public Builder setTutor(Tutor tutor) {
+                this.tutor = tutor;
                 return this;
             }
 
-            public Builder setSubjects(Subject subjects) {
-                this.subjects = subjects;
+            public Builder setSubject(Subject subject) {
+                this.subject = subject;
                 return this;
             }
 
@@ -113,8 +113,8 @@ public class TutorSubject {
                 this.subjectCode = tutorSubject.subjectCode;
                 this.tutorId = tutorSubject.tutorId;
                 this.yearsTaught = tutorSubject.yearsTaught;
-                this.subjects = tutorSubject.subjects;
-                this.tutors = tutorSubject.tutors;
+                this.subject = tutorSubject.subject;
+                this.tutor = tutorSubject.tutor;
                 return this;
             }
 

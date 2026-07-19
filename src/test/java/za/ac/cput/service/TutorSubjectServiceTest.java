@@ -29,7 +29,7 @@ class TutorSubjectServiceTest {
     private TutorSubjectService service;
     private static final List<Booking> bookings = new ArrayList<>();
 
-    private static final Tutor tutors = TutorFactory.createTutor(
+    private static final Tutor tutor = TutorFactory.createTutor(
             "T001",
             "Imaan",
             "Achmat",
@@ -39,7 +39,7 @@ class TutorSubjectServiceTest {
             150.0,
             bookings
     );
-    private static final Subject subjects = SubjectFactory.createSubject(
+    private static final Subject subject = SubjectFactory.createSubject(
             "ADP362S",
             "Application Development Practice",
             "Programming Module",
@@ -53,8 +53,8 @@ class TutorSubjectServiceTest {
                 "ADP362S",
                 "T001",
                 5,
-                subjects,
-                tutors
+                subject,
+                tutor
         );
     }
 
