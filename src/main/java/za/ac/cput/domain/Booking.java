@@ -28,7 +28,6 @@ public class Booking {
     // from being serialized through Booking
     @JsonBackReference("student-bookings")
     private Student student;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutorId")
     // Prevents recursive JSON serialization by stopping the Tutor
