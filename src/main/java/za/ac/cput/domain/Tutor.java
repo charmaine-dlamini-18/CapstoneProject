@@ -20,8 +20,10 @@ public class Tutor {
 
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String phoneNumber;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private double hourlyRate;
 
@@ -83,7 +85,6 @@ public class Tutor {
                 "\nLast Name: " + lastName +
                 "\nEmail: " + email +
                 "\nPhone Number: " + phoneNumber +
-                "\nPassword: " + password +
                 "\nHourly Rate: " + hourlyRate +
                 "\nBookings: " + bookings;
     }
