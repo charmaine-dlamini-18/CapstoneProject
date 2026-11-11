@@ -88,6 +88,13 @@ public class Booking {
         return tutor;
     }
 
+    // The tutor is hidden from the JSON (see @JsonBackReference), but students
+    // still need the ID to show the tutor's name and price on their own bookings.
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public String getTutorId() {
+        return tutor == null ? null : tutor.getTutorId();
+    }
+
     public Payment getPayment() {
         return payment;
     }
