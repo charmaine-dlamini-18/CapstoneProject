@@ -13,6 +13,6 @@ Date: 20/03/2026
  */
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, String> {
-    Optional<Admin> findByEmail(String email);
+    Optional<Admin> findByEmailIgnoreCase(String email);
 
 }
