@@ -6,8 +6,10 @@ Author: Thimna Booi - 230232108
 Date: 13/03/2026
  */
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 import java.util.List;
@@ -17,7 +19,9 @@ public class Admin {
     private String adminId;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
