@@ -1,9 +1,12 @@
 package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import za.ac.cput.domain.Admin;
 import za.ac.cput.repository.AdminRepository;
+import za.ac.cput.security.PasswordHasher;
 
 import java.util.List;
 
@@ -18,14 +21,20 @@ Date: 17/06/2026
 public class AdminService implements IAdminService {
 
   private AdminRepository repository;
+  private PasswordHasher passwordHasher;
 
-  @Autowired AdminService(AdminRepository repository){
+  @Autowired AdminService(AdminRepository repository, PasswordHasher passwordHasher){
       this.repository = repository;
+      this.passwordHasher = passwordHasher;
   }
 
     @Override
     public Admin create(Admin admin) {
-      return this.repository.save(admin);
+      // Hash the password before saving
+      Admin secured = new Admin.Builder().copy(admin)
+              .setPassword(passwordHasher.hashNew(admin.getPassword()))
+              .build();
+      return this.repository.save(secured);
     }
 
     @Override
@@ -35,7 +44,18 @@ public class AdminService implements IAdminService {
 
     @Override
     public Admin update(Admin admin) {
-        return this.repository.save(admin);
+        Admin existing = read(admin.getAdminId());
+        // An update may never create a new admin by accident
+        if (existing == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Admin not found: " + admin.getAdminId());
+        }
+        // Keep the old hash. A hash is never hashed again
+        String password = passwordHasher.hashForUpdate(admin.getPassword(), existing.getPassword());
+        Admin secured = new Admin.Builder().copy(admin)
+                .setPassword(password)
+                .build();
+        return this.repository.save(secured);
     }
 
     @Override
@@ -51,6 +71,6 @@ public class AdminService implements IAdminService {
 
     @Override
     public Admin findByEmail(String email) {
-        return this.repository.findByEmail(email).orElse(null);
+        return this.repository.findByEmailIgnoreCase(email).orElse(null);
     }
 }
