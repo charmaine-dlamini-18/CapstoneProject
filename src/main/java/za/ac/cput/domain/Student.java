@@ -16,8 +16,10 @@ public class Student {
     private String studentNumber;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String phoneNumber;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String levelOfStudy;
     @OneToMany(mappedBy ="student", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -73,7 +75,6 @@ public class Student {
                 "\nEmail: " + email +
                 "\nPhone Number: " + phoneNumber +
                 "\nLevel Of Study: " + levelOfStudy +
-                "\nPassword: " + password +
                 "\nBookings: " + bookings;
 
     }
