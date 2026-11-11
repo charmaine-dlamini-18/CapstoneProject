@@ -1,7 +1,9 @@
 package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import za.ac.cput.domain.Payment;
 import za.ac.cput.repository.PaymentRepository;
 
@@ -37,11 +39,20 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public Payment update(Payment payment) {
+        // An update may never create a new payment by accident
+        if (read(payment.getPaymentRef()) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Payment not found: " + payment.getPaymentRef());
+        }
         return this.repository.save(payment);
     }
 
     @Override
     public boolean delete(String paymentRef) {
+        if (read(paymentRef) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Payment not found: " + paymentRef);
+        }
         this.repository.deleteById(paymentRef);
         return true;
     }
