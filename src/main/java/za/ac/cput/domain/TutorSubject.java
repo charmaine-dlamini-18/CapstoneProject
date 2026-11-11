@@ -1,4 +1,5 @@
 package za.ac.cput.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -60,6 +61,8 @@ public class TutorSubject {
             return subject;
         }
 
+        // Do not send the tutor's bookings
+        @JsonIgnoreProperties("bookings")
         public Tutor getSubjectTutors() {
             return tutor;
         }
