@@ -68,3 +68,21 @@ Assumptions
 - Booking information is stored and retrieved from database using JPA
 - Relationships between Students, Tutors, Bookings and Payments are maintained correctly
 - The system provides a reliable and user-friendly backend for managing tutoring services
+
+# Security Features
+
+The Tutoring Booking Service uses authentication and authorisation to protect the system and its users. When a user logs in, the system checks their email address and password to confirm their identity. After successful authentication, the system checks their assigned role to determine which features and information they are allowed to access.
+
+- **Authentication:** The system uses HTTP Basic Authentication to verify users when they log in using their email address and password.
+- **Authorisation:** The system has three user roles, each with different permissions:
+  - **Student:** Can register, log in, view available subjects and tutors, create and manage their tutoring bookings, and access their payments.
+  - **Tutor:** Can log in, manage their information,set their availability, manage the subjects they teach and access their bookings.
+  - **Admin:** Has administrative access to manage students, tutors, subjects, bookings and payments.
+- **Password Protection:** When users register, their passwords are protected using BCrypt before being stored in the database. This prevents passwords from being stored as plain text.
+- **Email Verification:** Students and tutors must verify their email addresses before they can log in.
+- **Login Protection:** The system limits repeated failed login attempts from the same IP address and user account to help prevent unauthorised access.
+- **Registration Protection:** The system limits registration requests to reduce spam and prevent repeated account creation.
+- **Access Error Handling:** When a user tries to access an endpoint without logging in or without the required role, the system returns an appropriate JSON error response.
+- **Stateless Security:** The system uses stateless authentication, meaning it does not maintain server-side login sessions. CSRF protection is disabled because the backend is designed as a stateless API.
+
+Together, these features help protect user information, secure booking and payment operations, and ensure that students, tutors and administrators can only perform actions permitted by their roles.
