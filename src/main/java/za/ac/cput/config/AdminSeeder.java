@@ -37,7 +37,7 @@ public class AdminSeeder implements CommandLineRunner {
     private final PasswordEncoder encoder;
 
     // Gets the admin password from the environment variable.
-    @Value("${ADMIN_PASSWORD: StrongPass123}")
+    @Value("${ADMIN_PASSWORD:StrongPass123}")
     private String adminPassword;
 
     // Gets the admin email. Uses this email if none is provided.
