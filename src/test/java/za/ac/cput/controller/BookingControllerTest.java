@@ -9,21 +9,13 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import za.ac.cput.domain.Booking;
-import za.ac.cput.domain.Payment;
-import za.ac.cput.domain.Student;
-import za.ac.cput.domain.Tutor;
-import za.ac.cput.factory.BookingFactory;
-import za.ac.cput.factory.PaymentFactory;
-import za.ac.cput.factory.StudentFactory;
-import za.ac.cput.factory.TutorFactory;
-import za.ac.cput.service.BookingService;
-import za.ac.cput.service.StudentService;
-import za.ac.cput.service.TutorService;
-
+import za.ac.cput.domain.*;
+import za.ac.cput.factory.*;
+import za.ac.cput.service.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +23,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BookingControllerTest {
@@ -39,13 +32,18 @@ class BookingControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    // Sends the admin login with every request, so Spring Security lets the test in
+    private TestRestTemplate adminTemplate() {
+        return restTemplate.withBasicAuth("admin@tutoring.co.za", "Password123");
+    }
     @Autowired
     private StudentService studentService;
     @Autowired
     private TutorService tutorService;
     @Autowired
     private BookingService bookingService;
-    private static final String BASE_URL = "http://localhost:8080/tutoring/booking";
+    private static final String BASE_URL = "/booking";
 
     @BeforeAll
     public void setUp(){
@@ -89,8 +87,8 @@ class BookingControllerTest {
 
     @Test
     void a_create() {
-        String url = BASE_URL + "/create";
-        Booking createdBooking = this.restTemplate.postForObject(url, booking, Booking.class);
+        String url = BASE_URL + "/create?studentNumber=220094489&tutorId=T001";
+        Booking createdBooking = adminTemplate().postForObject(url, booking, Booking.class);
         assertNotNull(createdBooking);
         assertEquals(booking.getBookingId(), createdBooking.getBookingId());
         booking = createdBooking;
@@ -100,7 +98,7 @@ class BookingControllerTest {
     @Test
     void b_read() {
         String url = BASE_URL + "/read/" + booking.getBookingId();
-        ResponseEntity<Booking> response = this.restTemplate.getForEntity(url, Booking.class);
+        ResponseEntity<Booking> response = adminTemplate().getForEntity(url, Booking.class);
         assertNotNull(response.getBody());
         assertEquals(booking.getBookingId(), response.getBody().getBookingId());
         System.out.println("Read Booking: " + response.getBody());
@@ -115,9 +113,9 @@ class BookingControllerTest {
                 .build();
 
         String url = BASE_URL + "/update";
-        this.restTemplate.put(url, updatedBooking);
+        adminTemplate().put(url, updatedBooking);
 
-        ResponseEntity<Booking> response = restTemplate.getForEntity(BASE_URL + "/read/" + updatedBooking.getBookingId(), Booking.class);
+        ResponseEntity<Booking> response = adminTemplate().getForEntity(BASE_URL + "/read/" + updatedBooking.getBookingId(), Booking.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         System.out.println("Updated Booking" + response.getBody());
@@ -129,10 +127,10 @@ class BookingControllerTest {
     @Disabled
     void e_delete() {
         String url = BASE_URL + "/delete/" + booking.getBookingId();
-        this.restTemplate.delete(url);
+        adminTemplate().delete(url);
 
-        ResponseEntity<Booking> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);
-        assertNull(response.getBody());
+        ResponseEntity<Booking> response = adminTemplate().getForEntity(BASE_URL + "/read/" + booking.getBookingId(), Booking.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         System.out.println("Deleted Booking: " + "true");
 
     }
@@ -140,7 +138,7 @@ class BookingControllerTest {
     @Test
     void d_getAll() {
         String url = BASE_URL + "/getAll";
-        ResponseEntity<Booking[]> response = this.restTemplate.getForEntity(url, Booking[].class);
+        ResponseEntity<Booking[]> response = adminTemplate().getForEntity(url, Booking[].class);
         assertNotNull(response.getBody());
         System.out.println("Get All Booking: ");
         for (Booking booking : response.getBody()){

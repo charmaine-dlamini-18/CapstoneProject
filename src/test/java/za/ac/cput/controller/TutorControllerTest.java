@@ -5,17 +5,22 @@ Date: 28/06/2026
  */
 
 package za.ac.cput.controller;
+import org.springframework.http.HttpStatus;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.ResponseEntity;
 import za.ac.cput.domain.Tutor;
 import za.ac.cput.factory.TutorFactory;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 
 class TutorControllerTest {
@@ -25,7 +30,12 @@ class TutorControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private static final String BASE_URL = "http://localhost:8080/tutoring/tutor";
+    // Sends the admin login with every request, so Spring Security lets the test in
+    private TestRestTemplate adminTemplate() {
+        return restTemplate.withBasicAuth("admin@tutoring.co.za", "Password123");
+    }
+
+    private static final String BASE_URL = "/tutor";
 
     @BeforeAll
     public static void setUp() {
@@ -43,7 +53,19 @@ class TutorControllerTest {
     @Test
     void a_create() {
         String url = BASE_URL + "/create";
-        Tutor createdTutor = this.restTemplate.postForObject(url, tutor, Tutor.class);
+        // The password is write-only in JSON, so the test sends it in a plain map
+        Map<String, Object> body = new HashMap<>();
+        body.put("tutorId", tutor.getTutorId());
+        body.put("firstName", tutor.getFirstName());
+        body.put("lastName", tutor.getLastName());
+        body.put("email", tutor.getEmail());
+        body.put("phoneNumber", tutor.getPhoneNumber());
+        body.put("password", "Imaan2026");
+        body.put("hourlyRate", tutor.getHourlyRate());
+        body.put("bookings", new ArrayList<>());
+        // The create call now refuses an ID that already exists, so start from a clean slate
+        adminTemplate().delete(BASE_URL + "/delete/" + tutor.getTutorId());
+        Tutor createdTutor = adminTemplate().postForObject(url, body, Tutor.class);
         assertNotNull(createdTutor);
         assertEquals(tutor.getTutorId(), createdTutor.getTutorId());
         tutor = createdTutor;
@@ -54,7 +76,7 @@ class TutorControllerTest {
     @Test
     void b_read() {
         String url = BASE_URL + "/read/" + tutor.getTutorId();
-        ResponseEntity<Tutor> response = this.restTemplate.getForEntity(url, Tutor.class);
+        ResponseEntity<Tutor> response = adminTemplate().getForEntity(url, Tutor.class);
         assertNotNull(response.getBody());
         assertEquals(tutor.getTutorId(), response.getBody().getTutorId());
         System.out.println("Read Tutor: "+ response.getBody());
@@ -64,16 +86,16 @@ class TutorControllerTest {
     void c_update() {
         Tutor updatedTutor = new Tutor.Builder().copy(tutor).setHourlyRate(200.00).setPhoneNumber("073 987 6543").build();
         String url = BASE_URL + "/update";
-        this.restTemplate.put(url, updatedTutor);
+        adminTemplate().put(url, updatedTutor);
 
-        ResponseEntity<Tutor> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updatedTutor.getTutorId(), Tutor.class);
+        ResponseEntity<Tutor> response = adminTemplate().getForEntity(BASE_URL + "/read/" + updatedTutor.getTutorId(), Tutor.class);
         assertNotNull(response.getBody());
         System.out.println("Updated Tutor: "+ response.getBody());
     }
     @Test
     void d_getAll() {
         String url = BASE_URL + "/getAll";
-        ResponseEntity<Tutor[]> response = this.restTemplate.getForEntity(url, Tutor[].class);
+        ResponseEntity<Tutor[]> response = adminTemplate().getForEntity(url, Tutor[].class);
         assertNotNull(response.getBody());
         System.out.println("Get all Tutors:");
 
@@ -86,9 +108,9 @@ class TutorControllerTest {
     @Disabled
     void e_delete() {
         String url = BASE_URL + "/delete/" + tutor.getTutorId();
-        this.restTemplate.delete(url);
-        ResponseEntity<Tutor> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + tutor.getTutorId(), Tutor.class);
-        assertNull(response.getBody());
+        adminTemplate().delete(url);
+        ResponseEntity<Tutor> response = adminTemplate().getForEntity(BASE_URL + "/read/" + tutor.getTutorId(), Tutor.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         System.out.println("Deleted Tutor : true ");
     }
 }

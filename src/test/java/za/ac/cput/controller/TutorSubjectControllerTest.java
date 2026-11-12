@@ -12,6 +12,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TutorSubjectControllerTest {
 
@@ -34,11 +36,16 @@ class TutorSubjectControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    // Sends the admin login with every request, so Spring Security lets the test in
+    private TestRestTemplate adminTemplate() {
+        return restTemplate.withBasicAuth("admin@tutoring.co.za", "Password123");
+    }
     @Autowired
     private SubjectService subjectService;
     @Autowired
     private TutorService tutorService;
-    private static final String BASE_URL = "http://localhost:8080/tutoring/tutorsubject";
+    private static final String BASE_URL = "/tutorsubject";
 
     @BeforeEach
     public void setUp() {
@@ -51,7 +58,7 @@ class TutorSubjectControllerTest {
         ));
 
         Tutor tutor = tutorService.create(TutorFactory.createTutor(
-                "T987654",
+                "T001",
                 "Imaan",
                 "Achmat",
                 "imaan@gmail.com",
@@ -63,7 +70,7 @@ class TutorSubjectControllerTest {
 
         tutorSubject = TutorSubjectFactory.createTutorSubject(
                 "ADP362S",
-                "T987654",
+                "T001",
                 5,
                 subject,
                 tutor
@@ -73,7 +80,7 @@ class TutorSubjectControllerTest {
     @Test
     void a_create() {
         String url = BASE_URL + "/create";
-        TutorSubject created = this.restTemplate.postForObject(url, tutorSubject, TutorSubject.class);
+        TutorSubject created = adminTemplate().postForObject(url, tutorSubject, TutorSubject.class);
         assertNotNull(created);
         assertEquals(tutorSubject.getSubjectCode(), created.getSubjectCode());
         assertEquals(tutorSubject.getTutorId(), created.getTutorId());
@@ -85,7 +92,7 @@ class TutorSubjectControllerTest {
     void b_read() {
 
         String url = BASE_URL + "/read/" + tutorSubject.getSubjectCode() + "/" + tutorSubject.getTutorId();
-        ResponseEntity<TutorSubject> response = this.restTemplate.getForEntity(url, TutorSubject.class);
+        ResponseEntity<TutorSubject> response = adminTemplate().getForEntity(url, TutorSubject.class);
         assertNotNull(response.getBody());
         assertEquals(tutorSubject.getSubjectCode(), response.getBody().getSubjectCode());
         assertEquals(tutorSubject.getTutorId(), response.getBody().getTutorId());
@@ -100,9 +107,9 @@ class TutorSubjectControllerTest {
                 .build();
 
         String url = BASE_URL + "/update";
-        restTemplate.put(url, updated);
+        adminTemplate().put(url, updated);
 
-        ResponseEntity<TutorSubject> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updated.getSubjectCode() + "/" + updated.getTutorId(), TutorSubject.class);
+        ResponseEntity<TutorSubject> response = adminTemplate().getForEntity(BASE_URL + "/read/" + updated.getSubjectCode() + "/" + updated.getTutorId(), TutorSubject.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -114,17 +121,17 @@ class TutorSubjectControllerTest {
     @Disabled
     void e_delete() {
         String url = BASE_URL + "/delete/" + tutorSubject.getSubjectCode() + "/" + tutorSubject.getTutorId();
-        this.restTemplate.delete(url);
+        adminTemplate().delete(url);
 
-        ResponseEntity<TutorSubject> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + tutorSubject.getSubjectCode() + "/" + tutorSubject.getTutorId(), TutorSubject.class);
-        assertNull(response.getBody());
+        ResponseEntity<TutorSubject> response = adminTemplate().getForEntity(BASE_URL + "/read/" + tutorSubject.getSubjectCode() + "/" + tutorSubject.getTutorId(), TutorSubject.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         System.out.println("Deleted TutorSubject: true");
     }
 
     @Test
     void d_getAll() {
         String url = BASE_URL + "/getAll";
-        ResponseEntity<TutorSubject[]> response = this.restTemplate.getForEntity(url, TutorSubject[].class);
+        ResponseEntity<TutorSubject[]> response = adminTemplate().getForEntity(url, TutorSubject[].class);
         assertNotNull(response.getBody());
         System.out.println("Get All TutorSubject: ");
         for (TutorSubject ts : response.getBody()) {

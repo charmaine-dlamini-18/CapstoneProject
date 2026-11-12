@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import za.ac.cput.domain.Booking;
@@ -17,10 +18,13 @@ import za.ac.cput.factory.TutorFactory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class StudentControllerTest {
 
@@ -28,6 +32,11 @@ class StudentControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    // Sends the admin login with every request, so Spring Security lets the test in
+    private TestRestTemplate adminTemplate() {
+        return restTemplate.withBasicAuth("admin@tutoring.co.za", "Password123");
+    }
     private static final String BASE_URL = "/student";
 
     @BeforeAll
@@ -69,7 +78,19 @@ class StudentControllerTest {
     @Test
     void a_create() {
         String url = BASE_URL + "/create";
-        Student createdStudent = this.restTemplate.postForObject(url, student, Student.class);
+        // The password is write-only in JSON, so the test sends it in a plain map
+        Map<String, Object> body = new HashMap<>();
+        body.put("studentNumber", student.getStudentNumber());
+        body.put("firstName", student.getFirstName());
+        body.put("lastName", student.getLastName());
+        body.put("email", student.getEmail());
+        body.put("phoneNumber", student.getPhoneNumber());
+        body.put("password", "SabieCeza2026");
+        body.put("levelOfStudy", student.getLevelOfStudy());
+        body.put("bookings", new ArrayList<>());
+        // The create call now refuses an ID that already exists, so start from a clean slate
+        adminTemplate().delete(BASE_URL + "/delete/" + student.getStudentNumber());
+        Student createdStudent = adminTemplate().postForObject(url, body, Student.class);
         assertNotNull(createdStudent);
         assertEquals(student.getStudentNumber(), createdStudent.getStudentNumber());
         student = createdStudent;
@@ -80,7 +101,7 @@ class StudentControllerTest {
     void b_read() {
         String url = BASE_URL + "/read/" + student.getStudentNumber();
         ResponseEntity<Student> createdStud =
-                restTemplate.getForEntity(url, Student.class);
+                adminTemplate().getForEntity(url, Student.class);
         assertNotNull(createdStud);
         System.out.println(createdStud.getStatusCode());
         System.out.println(createdStud.getBody());
@@ -92,8 +113,8 @@ class StudentControllerTest {
                 .setPhoneNumber("073 982 2003")
                 .build();
         String url = BASE_URL + "/update";
-        this.restTemplate.put(url, updatedStudent);
-        ResponseEntity<Student> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updatedStudent.getStudentNumber(), Student.class);
+        adminTemplate().put(url, updatedStudent);
+        ResponseEntity<Student> response = adminTemplate().getForEntity(BASE_URL + "/read/" + updatedStudent.getStudentNumber(), Student.class);
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(response.getBody());
         System.out.println("Updated: " + response.getBody());
@@ -103,11 +124,11 @@ class StudentControllerTest {
     @Disabled
     void e_delete() {
         String url = BASE_URL + "/delete/" + student.getStudentNumber();
-        this.restTemplate.delete(url);
+        adminTemplate().delete(url);
 
         //Verify that the student was deleted
-        ResponseEntity <Student> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + student.getStudentNumber(), Student.class);
-        assertNull(response.getBody());
+        ResponseEntity <Student> response = adminTemplate().getForEntity(BASE_URL + "/read/" + student.getStudentNumber(), Student.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         System.out.println("Student deleted:" + "true");
 
     }
@@ -115,7 +136,7 @@ class StudentControllerTest {
     @Test
     void d_getAll() {
         String url = BASE_URL +"/getAll";
-        ResponseEntity <Student[]>  response = this.restTemplate.getForEntity(url, Student[].class);
+        ResponseEntity <Student[]>  response = adminTemplate().getForEntity(url, Student[].class);
         assertNotNull(response.getBody());
         System.out.println("Get All: " );
         for(Student student : response.getBody()){
