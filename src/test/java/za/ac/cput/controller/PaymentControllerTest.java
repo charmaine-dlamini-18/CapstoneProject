@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import za.ac.cput.domain.Booking;
@@ -13,6 +14,7 @@ import za.ac.cput.factory.PaymentFactory;
 import java.time.LocalDateTime;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class PaymentControllerTest {
 
@@ -20,7 +22,12 @@ class PaymentControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-    private static final String BASE_URL = "http://localhost:8080/tutoring/payment";
+
+    // Sends the admin login with every request, so Spring Security lets the test in
+    private TestRestTemplate adminTemplate() {
+        return restTemplate.withBasicAuth("admin@tutoring.co.za", "Password123");
+    }
+    private static final String BASE_URL = "/payment";
 
     @BeforeAll
     static void setUp() {
@@ -42,7 +49,7 @@ class PaymentControllerTest {
     @Test
     void a_create() {
         String url = BASE_URL + "/create";
-        Payment createdPayment = restTemplate.postForObject(url, payment, Payment.class);
+        Payment createdPayment = adminTemplate().postForObject(url, payment, Payment.class);
         assertNotNull(createdPayment);
         assertEquals(payment.getPaymentRef(), createdPayment.getPaymentRef());
         payment = createdPayment;
@@ -52,7 +59,7 @@ class PaymentControllerTest {
     @Test
     void b_read() {
         String url = BASE_URL + "/read/" + payment.getPaymentRef();
-        ResponseEntity<Payment> response = this.restTemplate.getForEntity(url, Payment.class);
+        ResponseEntity<Payment> response = adminTemplate().getForEntity(url, Payment.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(payment.getPaymentRef(), response.getBody().getPaymentRef());
@@ -66,9 +73,9 @@ class PaymentControllerTest {
                 .setStatus("Paid")
                 .build();
         String url = BASE_URL + "/update";
-        this.restTemplate.put(url, updatedPayment);
+        adminTemplate().put(url, updatedPayment);
 
-        ResponseEntity<Payment> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + updatedPayment.getPaymentRef(), Payment.class);
+        ResponseEntity<Payment> response = adminTemplate().getForEntity(BASE_URL + "/read/" + updatedPayment.getPaymentRef(), Payment.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Paid", response.getBody().getStatus());
@@ -79,16 +86,16 @@ class PaymentControllerTest {
     @Disabled
     void e_delete() {
         String url = BASE_URL + "/delete/" + payment.getPaymentRef();
-        this.restTemplate.delete(url);
-        ResponseEntity<Payment> response = this.restTemplate.getForEntity(BASE_URL + "/read/" + payment.getPaymentRef(), Payment.class);
-        assertNull(response.getBody());
+        adminTemplate().delete(url);
+        ResponseEntity<Payment> response = adminTemplate().getForEntity(BASE_URL + "/read/" + payment.getPaymentRef(), Payment.class);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         System.out.println("Deleted Payment: " + "true");
     }
 
     @Test
     void d_getAll() {
         String url = BASE_URL + "/getAll";
-        ResponseEntity<Payment[]> response = this.restTemplate.getForEntity(url, Payment[].class);
+        ResponseEntity<Payment[]> response = adminTemplate().getForEntity(url, Payment[].class);
         assertNotNull(response.getBody());
         System.out.println("Get All Payments:");
         for (Payment payment : response.getBody()) {
