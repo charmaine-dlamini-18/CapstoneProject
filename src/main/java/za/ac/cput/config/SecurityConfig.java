@@ -117,6 +117,17 @@ public class SecurityConfig {
                         // Admin access.
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
+                        // Students must be able to browse tutors, subjects and
+                        // tutor-subject links (read-only) so they can find tutors
+                        // and book sessions. These read rules must come before the
+                        // broader role rules below.
+                        .requestMatchers(HttpMethod.GET, "/tutor/getAll", "/tutor/read/**")
+                        .hasAnyRole("ADMIN", "TUTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.GET, "/subject/getAll", "/subject/read/**")
+                        .hasAnyRole("ADMIN", "TUTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.GET, "/tutorsubject/getAll", "/tutorsubject/read/**")
+                        .hasAnyRole("ADMIN", "TUTOR", "STUDENT")
+
                         // Tutor access.
                         .requestMatchers("/tutor/**").hasAnyRole("ADMIN", "TUTOR")
                         .requestMatchers("/tutorsubject/**").hasAnyRole("ADMIN", "TUTOR")
