@@ -21,6 +21,8 @@ public class Booking {
     private String sessionType;
     private String duration;
     private LocalDateTime date;
+    private String status;
+    private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentNumber")
@@ -54,6 +56,8 @@ public class Booking {
         this.sessionType = builder.sessionType;
         this.duration = builder.duration;
         this.date = builder.date;
+        this.status = builder.status;
+        this.deleted = builder.deleted;
         this.student = builder.student;
         this.tutor = builder.tutor;
         this.payment = builder.payment;
@@ -79,8 +83,29 @@ public class Booking {
         return date;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Student getStudent() {
         return student;
+    }
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    public String getStudentNumber() {
+        return student == null ? null : student.getStudentNumber();
     }
 
     public Tutor getTutor() {
@@ -137,6 +162,8 @@ public class Booking {
         private String sessionType;
         private String duration;
         private LocalDateTime date;
+        private String status;
+        private boolean deleted;
         private Student student;
         private Payment payment;
         private Tutor tutor;
@@ -147,6 +174,8 @@ public class Booking {
             this.sessionType = booking.sessionType;
             this.duration = booking.duration;
             this.date = booking.date;
+            this.status = booking.status;
+            this.deleted = booking.deleted;
             this.student = booking.student;
             this.payment = booking.payment;
             this.tutor = booking.tutor;
@@ -175,6 +204,16 @@ public class Booking {
 
         public Builder setDate(LocalDateTime date) {
             this.date = date;
+            return this;
+        }
+
+        public Builder setStatus(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder setDeleted(boolean deleted) {
+            this.deleted = deleted;
             return this;
         }
 

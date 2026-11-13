@@ -40,11 +40,15 @@ public class PaymentService implements IPaymentService {
     @Override
     public Payment update(Payment payment) {
         // An update may never create a new payment by accident
-        if (read(payment.getPaymentRef()) == null) {
+        Payment existing = read(payment.getPaymentRef());
+        if (existing == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Payment not found: " + payment.getPaymentRef());
         }
-        return this.repository.save(payment);
+        Payment merged = new Payment.Builder().copy(payment)
+                .setBooking(payment.getBooking() != null ? payment.getBooking() : existing.getBooking())
+                .build();
+        return this.repository.save(merged);
     }
 
     @Override

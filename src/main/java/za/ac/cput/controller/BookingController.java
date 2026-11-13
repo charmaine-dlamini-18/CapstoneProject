@@ -13,12 +13,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Student;
+import za.ac.cput.domain.Payment;
 import za.ac.cput.domain.Tutor;
 import za.ac.cput.security.AccessChecker;
 import za.ac.cput.service.BookingService;
+import za.ac.cput.service.PaymentService;
 import za.ac.cput.service.StudentService;
 import za.ac.cput.service.TutorService;
 import za.ac.cput.util.Helper;
@@ -28,15 +31,17 @@ import za.ac.cput.util.Helper;
 public class BookingController {
 
     private BookingService service;
+    private PaymentService paymentService;
     private TutorService tutorService;
     private StudentService studentService;
     private AccessChecker accessChecker;
 
     // Provides the services needed by this controller.
     @Autowired
-    public BookingController(BookingService service, TutorService tutorService,
+    public BookingController(BookingService service, PaymentService paymentService, TutorService tutorService,
                              StudentService studentService, AccessChecker accessChecker) {
         this.service = service;
+        this.paymentService = paymentService;
         this.tutorService = tutorService;
         this.studentService = studentService;
         this.accessChecker = accessChecker;
@@ -143,6 +148,7 @@ public class BookingController {
     // Only an admin or someone linked to the booking can update it.
     @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN') or @accessChecker.canAccessBooking(#booking.bookingId, authentication)")
+    @Transactional
     public Booking update(@RequestBody Booking booking, Authentication authentication) {
 
         // Checks that a booking and its ID were provided.
@@ -161,7 +167,17 @@ public class BookingController {
 
         // Admins can update the booking without these restrictions.
         if (accessChecker.isAdmin(authentication)) {
-            return service.update(booking);
+            Booking updated = service.update(booking);
+            Payment payment = existing.getPayment();
+            String paymentStatus = payment == null || payment.getStatus() == null
+                    ? "" : payment.getStatus().trim().toUpperCase();
+            if (booking.isDeleted() && payment != null
+                    && ("PAID".equals(paymentStatus) || paymentStatus.contains("COMPLETE"))) {
+                paymentService.update(new Payment.Builder().copy(payment)
+                        .setStatus("REFUNDED")
+                        .build());
+            }
+            return updated;
         }
 
         // Students and tutors can update session details,
@@ -170,6 +186,8 @@ public class BookingController {
                 .setStudent(existing.getStudent())
                 .setTutor(existing.getTutor())
                 .setPayment(existing.getPayment())
+                .setStatus(existing.getStatus())
+                .setDeleted(existing.isDeleted())
                 .build();
 
         return service.update(secured);
